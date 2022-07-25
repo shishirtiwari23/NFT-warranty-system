@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { CurrentContextProvider } from "./utils";
+import { Home } from "./pages/";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">Hello</header>
-    </div>
+    <CurrentContextProvider>
+      <Home />
+    </CurrentContextProvider>
   );
 }
 

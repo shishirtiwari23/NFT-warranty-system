@@ -55,37 +55,47 @@ const Navbar = () => {
 
   return (
     <div className={styles.container}>
-      (
       <div className={styles.left}>
         <NavLink to="/" className={styles.logo}>
           Logo
         </NavLink>
-        <NavLink to="/" className={styles.navLink}>
+      </div>
+      <div className={styles.middle}>
+        <NavLink to="/" className={(item) => item.isActive && styles.active}>
           Home
         </NavLink>
-        <NavLink to="/dashboard" className={styles.navLink}>
+        <NavLink
+          to="/dashboard"
+          className={(item) => item.isActive && styles.active}
+        >
           Dashboard
         </NavLink>
-        <NavLink to="/collections" className={styles.navLink}>
+        <NavLink
+          to="/collections"
+          className={(item) => item.isActive && styles.active}
+        >
           Collections
         </NavLink>
-        <NavLink to="/services" className={styles.navLink}>
+        <NavLink
+          to="/services"
+          className={(item) => item.isActive && styles.active}
+        >
           Services
         </NavLink>
       </div>
-      )
-      {windowDetails?.isMetamaskInstalled ? (
-        isConnected ? (
-          <p>Wallet Address: {walletAddress}</p>
+      <div className={styles.right}>
+        {windowDetails?.isMetamaskInstalled ? (
+          isConnected ? (
+            <p>Wallet Address: {walletAddress}</p>
+          ) : (
+            <Button onClick={connectToMetamask}>Connect Wallet</Button>
+          )
         ) : (
-          <Button onClick={connectToMetamask}>Connect To Metamask</Button>
-        )
-      ) : (
-        <Button>
-          <a href="https://metamask.io">Download Metamask</a>{" "}
-        </Button>
-      )}
-      Navbar
+          <Button>
+            <a href="https://metamask.io">Download Metamask</a>{" "}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

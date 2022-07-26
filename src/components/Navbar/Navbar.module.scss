@@ -1,5 +1,38 @@
 @import "../../utils/commons.scss";
 
 .container{
+    @extend .flexRow;
+    position: fixed;
+    width: 100%;
+    height:var(--nav-height);
+    // background-color: red;
+    padding:0 var(--default-padding-horizontal) ;
     
+    a{
+        color:rgba(4, 17, 29, 0.75);
+        text-decoration: none;
+        font-weight: 600;
+        padding:0.5rem 1rem;
+        padding-bottom: 1.3rem;
+        margin-right:2rem;
+        // background-color: blue;
+        &:hover{
+            color:rgb(4, 17, 29);
+        }
+    }
+    a.active{
+        // background-color: green;
+        color:rgb(4, 17, 29);
+        position: relative;
+        &::after{
+            content: '';
+            position: absolute;
+            bottom:0;
+            left:0;
+            height: 4px;
+            width:100%;
+            background-color: var(--clr-primary);
+            border-radius: 1rem 1rem 0 0 ;
+        }
+    }
 }

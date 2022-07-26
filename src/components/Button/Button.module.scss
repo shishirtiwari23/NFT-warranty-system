@@ -1,5 +1,17 @@
 @import "../../utils/commons.scss";
 
 .container{
-    
+    min-width: 100px;
+    padding:0.8rem 1.2rem;
+    border-radius:12px;
+    background-color: var(--clr-primary);
+    border:none;
+    color: white;
+    box-shadow: 0 0 10px 0 rgb(167, 167, 167);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    &:hover{
+        background-color:rgba(32, 129, 226,0.9)
+    }
 }

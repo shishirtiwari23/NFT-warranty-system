@@ -7,11 +7,12 @@
 }
 
 :root {
-  --clr-primary: rgb(21, 178, 229);
-  --clr-bg: rgb(21, 178, 229);
-  --nav-height: 70px;
+  --clr-primary: rgb(32, 129, 226);
+  --clr-bg: rgb(255,255,255);
+  --nav-height: 4.5rem;
   --sidemenu-width: 300px;
   --fixed-width: 100%;
+  --default-padding-horizontal:1rem;
 }
 html{
   font-size: 16px;

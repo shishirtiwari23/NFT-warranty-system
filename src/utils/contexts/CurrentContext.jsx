@@ -1,40 +1,52 @@
 import { createContext, useState, useEffect } from "react";
-import { ethers } from "ethers";
+import axios from "axios";
+import { detectProvider, getWalletAddress, addUser } from "../constants";
 
-const API_URL_PATH = "https://nft-warranty-system-server.herokuapp.com/api/";
+export const HOST_URL = "https://nft-warranty-system-server.herokuapp.com";
+
+export const api = axios.create({
+  baseURL: "http://localhost:3001/api",
+});
 
 const CurrentContext = createContext({});
 
 export const CurrentContextProvider = ({ children }) => {
-  const [user, setUser] = useState();
-
-  async function connectToMetamask() {
-    try {
-      const user = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      console.log(user);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function getUsers() {
-    const raw = await fetch(
-      API_URL_PATH +
-        "parent-clients/0xbEc53EBdf7833B9fdfd87472f2jggj87d578d2sdf3e87"
-    );
-    const json = await raw.json();
-    setUser(json);
-  }
+  const [walletAddress, setWalletAddress] = useState("");
+  const [windowDetails, setWindowDetails] = useState({
+    provider: window.ethereum,
+    isMetamaskInstalled: false,
+  });
 
   useEffect(() => {
-    connectToMetamask();
+    const newProvider = detectProvider();
+    setWindowDetails((prev) => {
+      return { ...prev, provider: newProvider };
+    });
   }, []);
+
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    if (windowDetails.provider) {
+      if (windowDetails.provider !== window.ethereum) {
+        window.alert(
+          "Provider is not window.ethereum, this likely happened beacause of multiple wallet extensions"
+        );
+      } else
+        setWindowDetails((prev) => {
+          return { ...prev, isMetamaskInstalled: true };
+        });
+    }
+  }, [windowDetails.provider]);
+
   return (
-    <CurrentContext.Provider value={{ connectToMetamask }}>
+    <CurrentContext.Provider
+      value={{
+        walletAddress,
+        HOST_URL,
+        setWalletAddress,
+        api,
+        windowDetails,
+      }}
+    >
       {children}
     </CurrentContext.Provider>
   );

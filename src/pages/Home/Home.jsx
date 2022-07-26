@@ -1,13 +1,11 @@
-import { CurrentContext } from "../../utils";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import styles from "./Home.module.scss";
+import { MainLayout } from "../../Layouts";
 
 const Home = () => {
-  const { connectToMetamask } = useContext(CurrentContext);
-
   return (
-    <div>
-      <button onClick={connectToMetamask}>Connect To Metamask</button>
-      <div>Home </div>
+    <div className={styles.container}>
+      <div>Brand Promotion </div>
     </div>
   );
 };

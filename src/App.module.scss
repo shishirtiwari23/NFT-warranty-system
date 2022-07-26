@@ -1,0 +1,19 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --clr-primary: rgb(21, 178, 229);
+  --clr-bg: rgb(21, 178, 229);
+  --nav-height: 70px;
+  --sidemenu-width: 300px;
+  --fixed-width: 100%;
+}
+html{
+  font-size: 16px;
+  font-family: Poppins, sans-serif;
+}

@@ -7,11 +7,13 @@
     background-color: var(--clr-primary);
     border:none;
     color: white;
-    box-shadow: 0 0 10px 0 rgb(167, 167, 167);
     font-weight: 600;
     font-size: 1rem;
-    cursor: pointer;
+    cursor: pointer;   
+    transition-duration:0.2s ; 
     &:hover{
-        background-color:rgba(32, 129, 226,0.9)
+        background-color:rgba(32, 129, 226,0.9);
+    box-shadow: 0 0 5px 0 rgb(167, 167, 167);
+
     }
 }

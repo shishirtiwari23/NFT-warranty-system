@@ -4,10 +4,12 @@
     @extend .flexRow;
     position: fixed;
     width: 100%;
+    z-index: 10;
     height:var(--nav-height);
     // background-color: red;
     padding:0 var(--default-padding-horizontal) ;
-    
+    border-bottom: 1px solid rgb(225, 225, 225);
+    background-color: white;
     a{
         color:rgba(4, 17, 29, 0.75);
         text-decoration: none;
@@ -33,6 +35,12 @@
             width:100%;
             background-color: var(--clr-primary);
             border-radius: 1rem 1rem 0 0 ;
+        }
+    }
+    .right{
+        p{
+            width: 600px;
+            overflow: auto;
         }
     }
 }

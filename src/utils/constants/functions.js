@@ -101,3 +101,15 @@ export async function addToken(req) {
   const res = await api.post("/add-token", req);
   return res;
 }
+
+export async function mintNFT() {
+  return {
+    contractAddress: "contractAddress",
+    id: "id", //Token Id
+    URI: "URI",
+  };
+}
+
+export async function createSmartContractInstance() {
+  return "contractAddress";
+}

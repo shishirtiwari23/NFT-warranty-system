@@ -6,6 +6,11 @@ import {
   addToken,
   addChildClient,
 } from "../../utils/constants/functions";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { GettingStarted, Manage, Reports } from "./pages";
+import { icons } from "../../assets";
+
+const { DocumentIcon, ManageIcon, ReportsIcon } = icons;
 
 const API = () => {
   const { walletAddress } = useContext(CurrentContext);
@@ -50,23 +55,41 @@ const API = () => {
   }
   return (
     <div className={styles.container}>
-      <h1>API</h1>
-      <h4>Create your first API</h4>
-      <button onClick={handleAddParentClient}>Create</button>
-      {res && (
-        <>
-          <p>API KEY : {res}</p>
-        </>
-      )}
-      <>
-        <input
-          type="text"
-          value={childId}
-          onChange={(e) => setChildId(e.target.value)}
-        />
-        <button onClick={handleAddChildClient}>Add Child Client</button>
-      </>
-      <button onClick={handleAddToken}>add token</button>
+      <Routes>
+        <Route path="getting-started" element={<GettingStarted />} />
+        <Route path="manage" element={<Manage />} />
+        <Route path="reports" element={<Reports />} />
+      </Routes>
+
+      <SideMenu />
+    </div>
+  );
+};
+
+const SideMenu = () => {
+  return (
+    <div className={styles.sideMenu}>
+      <NavLink
+        className={(item) => (item.isActive ? styles.active : {})}
+        to="/services/api/getting-started"
+      >
+        <DocumentIcon />
+        <span>Getting Started</span>
+      </NavLink>
+      <NavLink
+        className={(item) => (item.isActive ? styles.active : {})}
+        to="/services/api/manage"
+      >
+        <ManageIcon />
+        <span>Manage API</span>
+      </NavLink>
+      <NavLink
+        className={(item) => (item.isActive ? styles.active : {})}
+        to="/services/api/reports"
+      >
+        <ReportsIcon />
+        <span>Reports</span>
+      </NavLink>
     </div>
   );
 };

@@ -1,0 +1,22 @@
+@import "../../../../utils/commons.scss";
+
+.container{
+    padding:0 calc( 2 * var(--default-padding-horizontal));
+    position: relative;
+    .header{
+        @extend .flexRow;
+        
+    }
+    .APITokenCard{
+        @extend .flexRow;   
+        justify-content: flex-start;
+        p{
+            margin-left: 1rem;
+            font-weight: 500;
+        }
+        svg{
+            transform: scale(0.6 );
+            cursor: pointer;
+        }
+    }
+}

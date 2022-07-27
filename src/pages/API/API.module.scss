@@ -1,5 +1,50 @@
 @import "../../utils/commons.scss";
 
 .container{
-
+    padding:var(--default-padding-horizontal);
+    position: relative;
+    padding-left: 250px;
+    h3{
+    color:rgb(88, 92, 102);
+    font-weight: 500;
+    }
+}
+.sideMenu{
+    position: absolute;
+    top: calc(0rem - calc(1rem + var(--nav-height)));
+    left: 0;
+    padding-top: calc(1rem + var(--nav-height));
+    padding-bottom: 1rem;
+    overflow: auto;
+    height: 100vh;
+    width: 250px;
+    z-index: 5;
+    margin-left:calc(0rem - var(--default-padding-horizontal));
+    @extend .flexCol;
+    justify-content: flex-start;
+    border-right:1px solid rgb(225, 225, 225);
+  
+    a{
+        user-select: none;
+        width:100%;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        padding:0.5rem 1.2rem;
+        @extend .flexRow;
+        justify-content: flex-start;
+        svg{
+            margin-right: 1rem;
+            transform: scale(0.7);
+        }
+    }
+    a.active{
+       span{
+        color:white;
+       }
+       svg{
+        fill:white;
+       }
+       background-color: var(--clr-primary);
+    }
 }

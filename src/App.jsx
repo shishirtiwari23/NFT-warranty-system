@@ -43,7 +43,7 @@ function App() {
               }
             />
             <Route
-              path="/services/api"
+              path="/services/api/*"
               element={
                 <MainLayout>
                   <API />

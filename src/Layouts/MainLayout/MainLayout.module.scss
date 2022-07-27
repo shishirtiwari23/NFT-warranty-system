@@ -2,7 +2,7 @@
 
 .container{
 //  padding:0 var(--default-padding-horizontal);
- main{
+ >main{
      padding:1rem var(--default-padding-horizontal);
      padding-top: calc(1rem + var(--nav-height));
  }

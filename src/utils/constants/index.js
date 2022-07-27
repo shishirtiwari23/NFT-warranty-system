@@ -5,4 +5,6 @@ export {
   addUser,
   getParentClient,
   addToken,
+  mintNFT,
+  createSmartContractInstance,
 } from "./functions";

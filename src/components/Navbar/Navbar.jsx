@@ -60,29 +60,42 @@ const Navbar = () => {
           Logo
         </NavLink>
       </div>
-      <div className={styles.middle}>
-        <NavLink to="/" className={(item) => item.isActive && styles.active}>
-          Home
-        </NavLink>
-        <NavLink
-          to="/dashboard"
-          className={(item) => item.isActive && styles.active}
-        >
-          Dashboard
-        </NavLink>
-        <NavLink
-          to="/collections"
-          className={(item) => item.isActive && styles.active}
-        >
-          Collections
-        </NavLink>
-        <NavLink
-          to="/services"
-          className={(item) => item.isActive && styles.active}
-        >
-          Services
-        </NavLink>
-      </div>
+      {isConnected && (
+        <div className={styles.middle}>
+          <NavLink
+            to="/"
+            className={(item) =>
+              item.isActive && styles.active ? styles.active : {}
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/dashboard"
+            className={(item) =>
+              item.isActive && styles.active ? styles.active : {}
+            }
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/collections"
+            className={(item) =>
+              item.isActive && styles.active ? styles.active : {}
+            }
+          >
+            Collections
+          </NavLink>
+          <NavLink
+            to="/services"
+            className={(item) =>
+              item.isActive && styles.active ? styles.active : {}
+            }
+          >
+            Services
+          </NavLink>
+        </div>
+      )}
       <div className={styles.right}>
         {windowDetails?.isMetamaskInstalled ? (
           isConnected ? (

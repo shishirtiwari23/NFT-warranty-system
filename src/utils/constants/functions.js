@@ -60,7 +60,13 @@ export function detectProvider() {
   return provider;
 }
 
-export function onValuesChange(e, setValues) {
+export function onValuesChange(e, setValues, type) {
+  if (type === "file") {
+    const { id, files } = e.target;
+    setValues((prev) => {
+      return { ...prev, [id]: URL.createObjectURL(files[0]) };
+    });
+  }
   const { id, value, name } = e.target;
   // console.log(id, value, name);
   setValues((prev) => {
@@ -83,8 +89,8 @@ export async function addUser(walletAddress) {
 
 export async function addParentClient(req) {
   if (!req) return;
-  const { walletAddress, contractAddress } = req;
-  if (!walletAddress || !contractAddress) return;
+  const { walletAddress, contractAddress, name } = req;
+  if (!walletAddress || !contractAddress || !name) return;
   const res = await api.post("/add-parent-client", req);
   return res;
 }

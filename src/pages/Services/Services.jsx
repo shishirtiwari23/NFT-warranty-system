@@ -2,8 +2,14 @@ import { MainLayout } from "../../Layouts";
 import styles from "./Services.module.scss";
 import { Link } from "react-router-dom";
 import { Button } from "../../components";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Services = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/services/api/manage");
+  }, []);
   return (
     <div className={styles.container}>
       <h1>Warranty Card</h1>

@@ -18,6 +18,7 @@ const Manage = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isComponentLoading, setIsComponentLoading] = useState(false);
   const { walletAddress } = useContext(CurrentContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [childClientValues, setChildClientValues] = useState({
     id: "",
     walletAddress: "",
@@ -26,10 +27,10 @@ const Manage = () => {
   function onChildValuesChange(e) {
     onValuesChange(e, setChildClientValues);
   }
-
   async function generateHandler() {
     setIsPageLoading(true);
     const res = await addParentClient({
+      name: "Flipkart",
       walletAddress,
       contractAddress: await createSmartContractInstance(),
     });
@@ -75,25 +76,50 @@ const Manage = () => {
   }, [walletAddress]);
 
   if (isPageLoading) return <Loading />;
+  // if (isModalOpen)
+  //   return (
+  //     <AddParentClientModal
+  //       setIsModalOpen={setIsModalOpen}
+  //       isPageLoading={isPageLoading}
+  //       setIsPageLoading={setIsPageLoading}
+  //       setParentClient={setParentClient}
+  //       walletAddress={walletAddress}
+  //     />
+  //   );
   return (
     <main className={styles.container}>
       {isComponentLoading && <Loading type="linear" />}
       <div className={styles.header}>
         <h2>Manage</h2>
+
         <div className={styles.APITokenCard}>
-          {parentClient?.APIToken ? (
-            <>
-              <p>{parentClient?.APIToken}</p>
-              <CopyIcon />
-              <Button onClick={regenerateHandler}>Regenerate API Token</Button>
-            </>
+          {!parentClient?.APIToken ? (
+            <Button onClick={generateHandler}>Generate API Token</Button>
           ) : (
             <>
-              <Button onClick={generateHandler}>Generate API Token</Button>
+              <p>{parentClient?.APIToken}</p>
+              <div
+                onClick={() =>
+                  navigator.clipboard.writeText(parentClient?.APIToken)
+                }
+                className={styles.icon}
+              >
+                {" "}
+                <CopyIcon />
+              </div>
+
+              <Button onClick={regenerateHandler}>Regenerate API Token</Button>
             </>
           )}
         </div>
       </div>
+      {!parentClient?.APIToken && (
+        <>
+          <h3>Join as Organization to see the content</h3>
+          <Button onClick={() => setIsModalOpen(true)}>Join</Button>
+        </>
+      )}
+
       {parentClient?.APIToken && (
         <form
           onSubmit={childFormSubmitHandler}
@@ -122,6 +148,70 @@ const Manage = () => {
         </form>
       )}
     </main>
+  );
+};
+
+const AddParentClientModal = ({
+  setIsPageLoading,
+  isPageLoading,
+  setIsModalOpen,
+  walletAddress,
+  setParentClient,
+}) => {
+  const [values, setValues] = useState({
+    name: "",
+  });
+  useEffect(() => {
+    console.log(values);
+  });
+  async function generateHandler() {
+    setIsPageLoading(true);
+    const res = await addParentClient({
+      name: values?.name,
+      walletAddress,
+      contractAddress: await createSmartContractInstance(),
+    });
+    if (res?.data?.resData) {
+      setParentClient(res.data.resData);
+    } else window.alert("Unable to generate API Token");
+    setIsPageLoading(false);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    generateHandler();
+  }
+  if (isPageLoading) return <Loading />;
+  return (
+    <form onSubmit={handleSubmit} className={styles.modalContainer}>
+      <div className={styles.modal}>
+        <h3>Join as Organization</h3>
+        <div className={styles.imageContainer}>
+          {/* <img src={setValues?.image} alt="Organization" /> */}
+        </div>
+        <div className={styles.inputs}>
+          <TextInputField
+            value={values?.name}
+            required
+            id="name"
+            label="Name"
+            placeholder="Flipkart"
+            onChange={(e) => onValuesChange(e, setValues)}
+          />
+          {/* <input
+        accept="images/*"
+        type="file"
+        id="image"
+        label="Organization Image"
+        onChange={(e) => onValuesChange(e, setValues, "image")}
+      /> */}
+        </div>
+        <div className={styles.buttons}>
+          <Button type="submit">Create</Button>
+          <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+        </div>
+      </div>
+    </form>
   );
 };
 

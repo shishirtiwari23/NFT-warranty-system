@@ -1,0 +1,35 @@
+@import "../../utils/commons.scss";
+
+.container {
+    @extend .flexCol;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    width: fit-content;
+      width: 300px;
+    input,
+    textarea {
+      padding: calc(1rem + 2px);
+      border-radius: 4px;
+      outline: none;
+      font-size: 1rem;
+      background: transparent;
+      width: 100%;
+      resize: none;
+      color: rgb(53, 56, 64);
+      border: 2px solid rgba($color: rgb(53, 56, 64), $alpha: 0.4);
+    }
+    input:focus,
+    textarea:focus {
+      border-color: var(--clr-primary);
+    }
+    label {
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      text-transform: capitalize;
+      color: rgb(53, 56, 64);
+    }
+    input:focus + label,
+    textarea:focus + label {
+      color: rgb(53, 56, 64);
+    }
+}

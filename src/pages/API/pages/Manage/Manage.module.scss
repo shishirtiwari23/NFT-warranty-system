@@ -5,7 +5,7 @@
     position: relative;
     .header{
         @extend .flexRow;
-        
+
     }
     .APITokenCard{
         @extend .flexRow;   
@@ -17,6 +17,19 @@
         svg{
             transform: scale(0.6 );
             cursor: pointer;
+        }
+    }
+    .childClientCard{
+        margin-top: 3rem;
+        border:2px solid rgb(236, 236, 236);
+        padding:3rem;
+        .heading{
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        .inputs >div{
+            width: 600px;
+            margin:1rem 0;
         }
     }
 }

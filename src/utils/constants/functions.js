@@ -60,6 +60,17 @@ export function detectProvider() {
   return provider;
 }
 
+export function onValuesChange(e, setValues) {
+  const { id, value, name } = e.target;
+  // console.log(id, value, name);
+  setValues((prev) => {
+    return {
+      ...prev,
+      [name ? name : id]: value,
+    };
+  });
+}
+
 //API Calls --------------------------------------------------------------------------------------->
 
 export async function addUser(walletAddress) {
@@ -101,6 +112,18 @@ export async function addToken(req) {
   const res = await api.post("/add-token", req);
   return res;
 }
+
+export async function regenerateAPIToken(walletAddress) {
+  if (!walletAddress) return;
+  console.log("jhfjkd");
+  const res = await api.post("/parent-client/regenerate-api-token", {
+    walletAddress,
+  });
+  console.log(res);
+  return res;
+}
+
+//-------------------------------Web3 Functions
 
 export async function mintNFT() {
   return {

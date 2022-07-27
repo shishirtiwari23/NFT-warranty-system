@@ -7,4 +7,6 @@ export {
   addToken,
   mintNFT,
   createSmartContractInstance,
+  regenerateAPIToken,
+  onValuesChange,
 } from "./functions";

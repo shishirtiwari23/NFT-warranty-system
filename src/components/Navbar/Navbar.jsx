@@ -30,6 +30,7 @@ const Navbar = () => {
   async function connectToMetamask() {
     const newWalletAddress = await getWalletAddress(windowDetails.provider);
     // const balanace = await getWalletBalance(walletAddress);
+
     if (newWalletAddress !== undefined) {
       setWalletAddress(newWalletAddress);
       setIsConnected(true);

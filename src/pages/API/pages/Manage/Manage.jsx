@@ -8,6 +8,7 @@ import {
   regenerateAPIToken,
   onValuesChange,
   addChildClient,
+  getAllContractAddresses,
 } from "../../../../utils/constants/functions";
 import { useState, useContext, useEffect } from "react";
 import { CurrentContext } from "../../../../utils";
@@ -48,9 +49,10 @@ const Manage = () => {
   async function onRouteLoad() {
     setIsPageLoading(true);
     const res = await getParentClient(walletAddress);
+    console.log(res);
     if (res?.data?.resData) {
       setParentClient(res.data.resData);
-    }
+    } else setParentClient({});
     setIsPageLoading(false);
   }
 
@@ -61,15 +63,18 @@ const Manage = () => {
       setParentClient(res.data.resData);
     }
     setIsComponentLoading(false);
+    const res2 = await getAllContractAddresses(walletAddress);
+    console.log(res2);
   }
 
   async function childFormSubmitHandler(e) {
     setIsComponentLoading(true);
     e.preventDefault();
-    const { collectionAddress } = await createSmartContractInstance(
-      "Demo COllecection",
-      "DC"
-    );
+    // const { collectionAddress } = await createSmartContractInstance(
+    //   "Demo COllecection",
+    //   "DC"
+    // );
+    const collectionAddress = "Contract_Address_007";
     console.log(collectionAddress);
     const res = await addChildClient({
       walletAddress,
@@ -79,6 +84,7 @@ const Manage = () => {
         contractAddress: collectionAddress,
       },
     });
+    console.log(res);
     setIsComponentLoading(false);
   }
 

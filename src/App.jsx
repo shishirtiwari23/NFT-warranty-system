@@ -3,6 +3,7 @@ import { Home, Collections, Dashboard, Services, API } from "./pages/";
 import styles from "./App.module.scss";
 import { MainLayout } from "./Layouts";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { NFTCollection } from "./pages/Collections/pages";
 
 function App() {
   return (
@@ -23,6 +24,14 @@ function App() {
               element={
                 <MainLayout>
                   <Dashboard />
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/collections/:parentWalletAddress"
+              element={
+                <MainLayout>
+                  <NFTCollection />
                 </MainLayout>
               }
             />

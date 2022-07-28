@@ -4,9 +4,9 @@ import { Button } from "../";
 
 const { verifiedIcon } = icons;
 
-export const NFTCard = ({ id, name, mintedOn, expiresIn }) => {
+export const NFTCard = ({ id, name, mintedOn, expiresIn, ...remaining }) => {
   return (
-    <div className={styles.NFTCard}>
+    <div {...remaining} className={styles.NFTCard}>
       <p className={styles.id}>
         <span>#AMKD234KJ97S</span>
       </p>
@@ -30,9 +30,15 @@ export const NFTCard = ({ id, name, mintedOn, expiresIn }) => {
   );
 };
 
-export const CollectionCard = ({ name, id, profileImage, coverImage }) => {
+export const CollectionCard = ({
+  name,
+  id,
+  profileImage,
+  coverImage,
+  ...remaining
+}) => {
   return (
-    <div className={styles.collectionCard}>
+    <div {...remaining} className={styles.collectionCard}>
       <div className={styles.coverImage}>
         <img src="" alt="" />
       </div>

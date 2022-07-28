@@ -6,24 +6,25 @@ import { addToken, mintNFT, onValuesChange } from "../../utils/constants";
 import { CurrentContext } from "../../utils";
 
 const Dashboard = () => {
-  const { parentClient } = useContext(CurrentContext);
+  const { parentClient, walletAddress } = useContext(CurrentContext);
   const [receiverWalletAddress, setReceiverWalletAddress] = useState("");
   const [product, setProduct] = useState({
     name: "",
     id: "",
-    mintedOn: "",
     warrantyDuration: "",
     SCID: "",
+    mintedOn: "28 July",
   });
 
   async function submitHandler(e) {
     e.preventDefault();
-    // const res = await mintNFT({
-    //   product: product,
-    //   walletAddress: parentClient.walletAddress,
-    //   receiverWalletAddress,
-    //   contractAddress: parentClient.contractAddress, //For now only parent can create nft
-    // });
+    const res = await mintNFT({
+      product: product,
+      walletAddress: "0x38009e3f71B52569B064d225f984247c378FCE96",
+      receiverWalletAddress,
+      contractAddress: "0xd8d289F62C800352D5868f666aD8c8f65dae95EC", //For now only parent can create nft
+    });
+    console.log(res);
     const res2 = await addToken({
       id: "Token Id2fdmksfdsdskddssssssdddss",
       URI: "URI",

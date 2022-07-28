@@ -14,25 +14,31 @@ import { CurrentContext } from "../../../../utils";
 
 const { CopyIcon } = icons;
 const Manage = () => {
-  const [parentClient, setParentClient] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isComponentLoading, setIsComponentLoading] = useState(false);
-  const { walletAddress } = useContext(CurrentContext);
+  const { walletAddress, parentClient, setParentClient } =
+    useContext(CurrentContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [childClientValues, setChildClientValues] = useState({
     id: "",
     walletAddress: "",
   });
 
+  async function checking() {
+    const res = await createSmartContractInstance("Demo COllecection", "DC");
+    console.log(res);
+  }
+
   function onChildValuesChange(e) {
     onValuesChange(e, setChildClientValues);
   }
   async function generateHandler() {
     setIsPageLoading(true);
+
     const res = await addParentClient({
       name: "Flipkart",
       walletAddress,
-      contractAddress: await createSmartContractInstance(),
+      contractAddress: "0x69f165ccb0651285b39411230d6e686e7616dbdf",
     });
     if (res?.data?.resData) {
       setParentClient(res.data.resData);
@@ -60,12 +66,17 @@ const Manage = () => {
   async function childFormSubmitHandler(e) {
     setIsComponentLoading(true);
     e.preventDefault();
+    const { collectionAddress } = await createSmartContractInstance(
+      "Demo COllecection",
+      "DC"
+    );
+    console.log(collectionAddress);
     const res = await addChildClient({
       walletAddress,
       child: {
         id: childClientValues?.id,
         walletAddress: childClientValues?.walletAddress,
-        contractAddress: await createSmartContractInstance(),
+        contractAddress: collectionAddress,
       },
     });
     setIsComponentLoading(false);
@@ -116,7 +127,7 @@ const Manage = () => {
       {!parentClient?.APIToken && (
         <>
           <h3>Join as Organization to see the content</h3>
-          <Button onClick={() => setIsModalOpen(true)}>Join</Button>
+          <Button onClick={() => checking()}>Join</Button>
         </>
       )}
 

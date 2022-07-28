@@ -6,7 +6,7 @@
     border-radius:12px;
     margin:0.7rem 0;
     background-color: var(--clr-primary);
-    border:none;
+    border: 2px solid var(--clr-primary);
     color: white;
     font-weight: 600;
     font-size: 1rem;
@@ -17,4 +17,9 @@
     box-shadow: 0 0 5px 0 rgb(167, 167, 167);
 
     }
+}
+.container.secondary{
+    border:2px solid var(--clr-primary);
+    background-color: white;
+    color:var(--clr-primary)
 }

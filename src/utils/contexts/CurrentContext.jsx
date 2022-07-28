@@ -12,6 +12,7 @@ const CurrentContext = createContext({});
 
 export const CurrentContextProvider = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState("");
+  const [parentClient, setParentClient] = useState(null);
   const [windowDetails, setWindowDetails] = useState({
     provider: window.ethereum,
     isMetamaskInstalled: false,
@@ -42,6 +43,8 @@ export const CurrentContextProvider = ({ children }) => {
       value={{
         walletAddress,
         HOST_URL,
+        parentClient,
+        setParentClient,
         setWalletAddress,
         api,
         windowDetails,

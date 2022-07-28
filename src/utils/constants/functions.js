@@ -4,6 +4,8 @@ import Web3 from "web3";
 import { CollectionFactory_abi } from "./contractABI/CollectionFactory";
 import { Collection_abi } from "./contractABI/Collection";
 
+const web3 = new Web3(detectProvider());
+
 // export async function getWalletBalance(walletAddress) {
 //   // const Web3js me banana hai abhi
 // }
@@ -133,6 +135,26 @@ export async function regenerateAPIToken(walletAddress) {
 
 //-------------------------------Web3 Functions
 
+// export async function mintNFT({
+//   walletAddress,
+//   receiverWalletAddress,
+//   product,
+//   contractAddress,
+// }) {
+//   if (!walletAddress || !receiverWalletAddress || !product || !contractAddress)
+//     return;
+//   const { name, id, mintedOn, warrantyDuration } = product;
+//   if (!name || !id || !mintedOn || !warrantyDuration) return;
+
+//   //Do your thing
+
+//   return {
+//     status: 1,
+//     id: "id", //Token Id
+//     URI: "URI",
+//   };
+// }
+
 export async function mintNFT({ walletAddress, contractAddress }) {
   return {
     status: 1,
@@ -192,7 +214,7 @@ export async function createSmartContractInstance(name, symbol) {
     CollectionFactory_abi,
     "0x69f165ccb0651285b39411230d6e686e7616dbdf"
   );
-  accounts = await web3.eth.getAccounts();
+  const accounts = await web3.eth.getAccounts();
   const tx = await contractCreateCollection.methods
     .createCollection(name, symbol)
     .send({ from: accounts[0] });
@@ -203,8 +225,5 @@ export async function createSmartContractInstance(name, symbol) {
     collectionAddress: eventEmitted.collectionAddress,
     collectionId: eventEmitted.collectionId,
   };
-
-  if (!res) return {};
-  if (res.status === 0) return {};
-  if (res?.contractAddress) return res.contractAddress;
+  return res;
 }

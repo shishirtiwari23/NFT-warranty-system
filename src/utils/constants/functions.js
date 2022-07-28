@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 import { api } from "../contexts/CurrentContext";
 import Web3 from "web3";
+import { CollectionFactory_abi } from "./contractABI/CollectionFactory";
+import { Collection_abi } from "./contractABI/Collection";
 
 // export async function getWalletBalance(walletAddress) {
 //   // const Web3js me banana hai abhi
@@ -185,8 +187,22 @@ export async function viewComplaintStatus({ comaplaintId, contractAddress }) {
   };
 }
 
-export async function createSmartContractInstance() {
-  const res = {};
+export async function createSmartContractInstance(name, symbol) {
+  const contractCreateCollection = new web3.eth.Contract(
+    CollectionFactory_abi,
+    "0x69f165ccb0651285b39411230d6e686e7616dbdf"
+  );
+  accounts = await web3.eth.getAccounts();
+  const tx = await contractCreateCollection.methods
+    .createCollection(name, symbol)
+    .send({ from: accounts[0] });
+  console.log("Collection Created!!");
+  const eventEmitted = tx.events.CollectionCreated.returnValues;
+  const res = {
+    status: 1,
+    collectionAddress: eventEmitted.collectionAddress,
+    collectionId: eventEmitted.collectionId,
+  };
 
   if (!res) return {};
   if (res.status === 0) return {};

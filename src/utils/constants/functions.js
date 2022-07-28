@@ -117,8 +117,12 @@ export async function getParentClient(walletAddress) {
 
 export async function addToken(req) {
   if (!req) return;
+
   const { id, URI, walletAddress, contractAddress } = req;
+
   if (!id || !URI || !walletAddress || !contractAddress) return;
+  console.log(req);
+
   const res = await api.post("/add-token", req);
   return res;
 }

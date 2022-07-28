@@ -2,7 +2,7 @@ import styles from "./Dashboard.module.scss";
 import { MainLayout } from "../../Layouts";
 import { useContext, useState } from "react";
 import { TextInputField, Button } from "../../components";
-import { mintNFT, onValuesChange } from "../../utils/constants";
+import { addToken, mintNFT, onValuesChange } from "../../utils/constants";
 import { CurrentContext } from "../../utils";
 
 const Dashboard = () => {
@@ -18,12 +18,19 @@ const Dashboard = () => {
 
   async function submitHandler(e) {
     e.preventDefault();
-    const res = await mintNFT({
-      product: product,
-      walletAddress: parentClient.walletAddress,
-      receiverWalletAddress,
-      contractAddress: parentClient.contractAddress, //For now only parent can create nft
+    // const res = await mintNFT({
+    //   product: product,
+    //   walletAddress: parentClient.walletAddress,
+    //   receiverWalletAddress,
+    //   contractAddress: parentClient.contractAddress, //For now only parent can create nft
+    // });
+    const res2 = await addToken({
+      id: "Token Id2fdmksfdsdskddssssssdddss",
+      URI: "URI",
+      walletAddress: receiverWalletAddress,
+      contractAddress: "ContractAddress",
     });
+    console.log(res2);
   }
 
   return (

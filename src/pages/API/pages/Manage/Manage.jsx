@@ -14,10 +14,10 @@ import { CurrentContext } from "../../../../utils";
 
 const { CopyIcon } = icons;
 const Manage = () => {
-  const [parentClient, setParentClient] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isComponentLoading, setIsComponentLoading] = useState(false);
-  const { walletAddress } = useContext(CurrentContext);
+  const { walletAddress, parentClient, setParentClient } =
+    useContext(CurrentContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [childClientValues, setChildClientValues] = useState({
     id: "",

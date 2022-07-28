@@ -131,6 +131,26 @@ export async function regenerateAPIToken(walletAddress) {
 
 //-------------------------------Web3 Functions
 
+// export async function mintNFT({
+//   walletAddress,
+//   receiverWalletAddress,
+//   product,
+//   contractAddress,
+// }) {
+//   if (!walletAddress || !receiverWalletAddress || !product || !contractAddress)
+//     return;
+//   const { name, id, mintedOn, warrantyDuration } = product;
+//   if (!name || !id || !mintedOn || !warrantyDuration) return;
+
+//   //Do your thing
+
+//   return {
+//     status: 1,
+//     id: "id", //Token Id
+//     URI: "URI",
+//   };
+// }
+
 export async function mintNFT({ walletAddress, contractAddress }) {
   return {
     status: 1,

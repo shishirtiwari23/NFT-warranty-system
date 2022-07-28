@@ -14,16 +14,18 @@ const Dashboard = () => {
     mintedOn: "",
     warrantyDuration: "",
     SCID: "",
+    mintedOn: "28 July",
   });
 
   async function submitHandler(e) {
     e.preventDefault();
     const res = await mintNFT({
       product: product,
-      walletAddress: parentClient.walletAddress,
+      walletAddress: "0xf3F0e684564878b90c35d803A5103cFAB7eE0D35",
       receiverWalletAddress,
-      contractAddress: parentClient.contractAddress, //For now only parent can create nft
+      contractAddress: "0xe911f9F65866558a00412A925dabc8Bac0a867dE", //For now only parent can create nft
     });
+    console.log(res);
   }
 
   return (

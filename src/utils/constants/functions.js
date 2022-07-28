@@ -3,8 +3,12 @@ import { api } from "../contexts/CurrentContext";
 import Web3 from "web3";
 import { CollectionFactory_abi } from "./contractABI/CollectionFactory";
 import { Collection_abi } from "./contractABI/Collection";
+const axios = require("axios");
 
 const web3 = new Web3(detectProvider());
+
+const key = process.env.REACT_APP_PINATA_KEY;
+const secret = process.env.REACT_APP_PINATA_SECRET;
 
 // export async function getWalletBalance(walletAddress) {
 //   // const Web3js me banana hai abhi
@@ -134,34 +138,94 @@ export async function regenerateAPIToken(walletAddress) {
 }
 
 //-------------------------------Web3 Functions
+const pinJSONToIPFS = async (JSONBody) => {
+  const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+  //making axios POST request to Pinata ⬇️
+  return axios
+    .post(url, JSONBody, {
+      headers: {
+        pinata_api_key: key,
+        pinata_secret_api_key: secret,
+      },
+    })
+    .then(function (response) {
+      return {
+        success: true,
+        pinataUrl:
+          "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash,
+      };
+    })
+    .catch(function (error) {
+      console.log(error);
+      return {
+        success: false,
+        message: error.message,
+      };
+    });
+};
 
-// export async function mintNFT({
-//   walletAddress,
-//   receiverWalletAddress,
-//   product,
-//   contractAddress,
-// }) {
-//   if (!walletAddress || !receiverWalletAddress || !product || !contractAddress)
-//     return;
-//   const { name, id, mintedOn, warrantyDuration } = product;
-//   if (!name || !id || !mintedOn || !warrantyDuration) return;
+export async function mintNFT({
+  walletAddress,
+  receiverWalletAddress,
+  product,
+  contractAddress,
+}) {
+  console.log({
+    walletAddress,
+    receiverWalletAddress,
+    product,
+    contractAddress,
+  });
+  if (!walletAddress || !receiverWalletAddress || !product || !contractAddress)
+    return;
+  const { name, id, mintedOn, warrantyDuration } = product;
+  if (!name || !id || !mintedOn || !warrantyDuration) return;
 
-//   //Do your thing
+  //Do your thing
+  //make metadata
+  const metadata = new Object();
+  metadata.id = id;
+  metadata.name = name;
+  metadata.date = mintedOn;
+  metadata.warrantyDuration = warrantyDuration;
 
+  //make pinata call
+  const pinataResponse = await pinJSONToIPFS(metadata);
+  if (!pinataResponse.success) {
+    return {
+      success: false,
+      status: "😢 Something went wrong while uploading your tokenURI.",
+    };
+  }
+  const tokenURI = pinataResponse.pinataUrl;
+
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+
+  const receipt = await contractCollection.methods
+    .safeMint(receiverWalletAddress, tokenURI, warrantyDuration)
+    .send({ from: walletAddress });
+  console.log(receipt);
+  console.log("NFT Minted!!");
+
+  const event = receipt.events.Transfer.returnValues;
+
+  return {
+    status: 1,
+    id: event.tokenId, //Token Id
+    URI: tokenURI,
+  };
+}
+
+// export async function mintNFT({ walletAddress, contractAddress }) {
 //   return {
 //     status: 1,
 //     id: "id", //Token Id
 //     URI: "URI",
 //   };
 // }
-
-export async function mintNFT({ walletAddress, contractAddress }) {
-  return {
-    status: 1,
-    id: "id", //Token Id
-    URI: "URI",
-  };
-}
 
 export async function burnNFT({ contractAddress, id }) {
   //Here id is token id

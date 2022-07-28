@@ -131,14 +131,64 @@ export async function regenerateAPIToken(walletAddress) {
 
 //-------------------------------Web3 Functions
 
-export async function mintNFT() {
+export async function mintNFT({ walletAddress, contractAddress }) {
   return {
-    contractAddress: "contractAddress",
+    status: 1,
     id: "id", //Token Id
     URI: "URI",
   };
 }
 
+export async function burnNFT({ contractAddress, id }) {
+  //Here id is token id
+}
+
+export async function issueComplaint({ id, description, contractAddress }) {
+  //Here id is token id
+  return {
+    status: 1,
+    complaintId: "id",
+  };
+}
+
+export async function updateComplaint({
+  status,
+  complaintId,
+  contractAddress,
+}) {
+  return {
+    status: 1,
+  };
+}
+
+export async function transferNFT({
+  contractAddress,
+  tokenId,
+  receiverWalletAddress,
+}) {
+  return {
+    status: 1,
+  };
+}
+
+export async function viewWarranty({ tokenId, contractAddress }) {
+  return {
+    status: 1,
+    timeLeft: 3223, //Time in seconds
+  };
+}
+
+export async function viewComplaintStatus({ comaplaintId, contractAddress }) {
+  return {
+    status: 0,
+    description: "",
+  };
+}
+
 export async function createSmartContractInstance() {
-  return "contractAddress";
+  const res = {};
+
+  if (!res) return {};
+  if (res.status === 0) return {};
+  if (res?.contractAddress) return res.contractAddress;
 }

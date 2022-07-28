@@ -1,5 +1,6 @@
 @import "../../utils/commons.scss";
 
 .container{
-
+@extend .flexRow;
+padding:4rem;
 }

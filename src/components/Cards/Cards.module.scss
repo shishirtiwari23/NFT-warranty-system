@@ -1,7 +1,6 @@
 @import "../../utils/commons.scss";
 
 .NFTCard{
-    // background-color: red;
     width: 300px;
     height: 350px;
     box-shadow: 0 0 5px rgb(177, 177, 177);
@@ -10,10 +9,8 @@
     padding:1.5rem 1.5rem;
     border-radius: 12px;
     transition: all 0.1s;
-    &:hover{
-        
-transform: scale(1.02);
-    }
+    z-index: 1;
+   
     overflow: hidden;
     .id{
         font-size: 1.1rem;
@@ -111,5 +108,35 @@ transform: scale(1.02);
     &:hover{
     // box-shadow: 0 0 5px rgb(177, 177, 177);
     transform: scale(1.03);
+    }
+}
+.transferModalContainer{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(rgb(0, 0, 0),0.5);
+    @extend .flexRow;
+    align-items: center;
+    justify-content: center ;
+    .modal{
+        background-color: white;
+        position: relative;
+        padding:2rem;
+        >div:first-child{
+            width: 500px;
+        }
+        .buttons{
+            width: 100%;
+            padding:0;
+                position: relative ;
+                @extend .flexRow;
+                justify-content: space-between;
+                button{
+                    margin:1rem 0.3rem;
+                }
+            
+        }
     }
 }

@@ -9,4 +9,5 @@ export {
   createSmartContractInstance,
   regenerateAPIToken,
   onValuesChange,
+  getUserCollections,
 } from "./functions";

@@ -30,6 +30,7 @@ const Dashboard = () => {
       URI: "URI",
       walletAddress: receiverWalletAddress,
       contractAddress: "ContractAddress",
+      APIToken: "dkjf",
     });
     console.log(res2);
   }

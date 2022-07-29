@@ -25,10 +25,10 @@ const Manage = () => {
     walletAddress: "",
   });
 
-  async function checking() {
-    const res = await createSmartContractInstance("Demo COllecection", "DC");
-    console.log(res);
-  }
+  // async function checking() {
+  //   const res = await createSmartContractInstance("Demo COllecection", "DC");
+  //   console.log(res);
+  // }
 
   function onChildValuesChange(e) {
     onValuesChange(e, setChildClientValues);
@@ -74,7 +74,7 @@ const Manage = () => {
     //   "Demo COllecection",
     //   "DC"
     // );
-    const collectionAddress = "Contract_Address_007";
+    const collectionAddress = "0x3800Contract3";
     console.log(collectionAddress);
     const res = await addChildClient({
       walletAddress,
@@ -133,7 +133,7 @@ const Manage = () => {
       {!parentClient?.APIToken && (
         <>
           <h3>Join as Organization to see the content</h3>
-          <Button onClick={() => checking()}>Join</Button>
+          <Button>Join</Button>
         </>
       )}
 

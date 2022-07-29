@@ -128,11 +128,11 @@ export async function getAllContractAddresses(walletAddress) {
 export async function getAllUserTokensByClientId(req) {
   console.log(req);
   if (!req) return;
-  const { allContractAddresses, walletAddress } = req; //This walletAddress is of user
-  if (!allContractAddresses || !walletAddress) return;
+  const { parentWalletAddress, walletAddress } = req; //This walletAddress is of user
+  if (!parentWalletAddress || !walletAddress) return;
   const res = await api.post("/all-nfts", {
     walletAddress,
-    allContractAddresses,
+    parentWalletAddress,
   });
   return res;
 }
@@ -146,6 +146,12 @@ export async function addToken(req) {
   console.log(req);
 
   const res = await api.post("/add-token", req);
+  return res;
+}
+
+export async function getUserCollections(walletAddress) {
+  if (!walletAddress) return;
+  const res = await api.get("/collections/" + walletAddress);
   return res;
 }
 
@@ -226,10 +232,9 @@ export async function mintNFT({
     Collection_abi,
     contractAddress
   );
-
   const receipt = await contractCollection.methods
-    .safeMint(receiverWalletAddress, tokenURI, warrantyDuration)
-    .send({ from: walletAddress });
+    .safeMint(receiverWalletAddress, tokenURI, parseInt(warrantyDuration))
+    .send({ from: await getWalletAddress() });
   console.log(receipt);
   console.log("NFT Minted!!");
 

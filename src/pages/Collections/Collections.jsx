@@ -1,21 +1,41 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { NFTCard, CollectionCard } from "../../components";
+import { CollectionCard, Loading } from "../../components";
 import { MainLayout } from "../../Layouts";
 import { CurrentContext } from "../../utils";
+import { getUserCollections } from "../../utils/constants";
 import styles from "./Collections.module.scss";
 
 const Collections = () => {
   const navigate = useNavigate();
+  const [collections, setCollections] = useState([]);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const { walletAddress } = useContext(CurrentContext);
-  const parentClientWalletAddress =
-    "0x38009e3f71B52569B064d225f984247c378FCE96";
+
+  async function getUserCollectionsHandler() {
+    if (!walletAddress) setCollections([]);
+    else {
+      const res = await getUserCollections(walletAddress);
+      if (res?.data?.resData) setCollections(res.data.resData);
+    }
+    setIsPageLoading(false);
+  }
+
+  useEffect(() => {
+    getUserCollectionsHandler();
+  }, [walletAddress]);
+  if (isPageLoading) return <Loading />;
   return (
     <div className={styles.container}>
-      <CollectionCard
-        onClick={() => navigate("/collections/" + parentClientWalletAddress)}
-      />
-      <NFTCard />
+      {collections?.map((collection, index) => {
+        return (
+          <CollectionCard
+            collection={collection}
+            key={index}
+            onClick={() => navigate("/collections/" + collection.walletAddress)}
+          />
+        );
+      })}
     </div>
   );
 };

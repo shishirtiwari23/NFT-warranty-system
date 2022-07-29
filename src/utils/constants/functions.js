@@ -176,6 +176,30 @@ export async function getContractAddress(walletAddress) {
   return res;
 }
 
+export async function transferOwnershipInDB(req) {
+  if (!req) return;
+  const {
+    receiverWalletAddress,
+    clientWalletAddress,
+    URI,
+    id,
+    contractAddress,
+    senderWalletAddress,
+  } = req;
+  if (
+    !receiverWalletAddress ||
+    !clientWalletAddress ||
+    !URI ||
+    !id ||
+    !contractAddress ||
+    !senderWalletAddress
+  )
+    return;
+
+  const res = await api.post("/transfer-ownership", req);
+  return res;
+}
+
 export async function regenerateAPIToken(walletAddress) {
   if (!walletAddress) return;
   const res = await api.post("/parent-client/regenerate-api-token", {
@@ -331,15 +355,16 @@ export async function updateComplaint({
 
 export async function transferNFT({
   contractAddress,
-  tokenId,
+  id, //Token id
   receiverWalletAddress,
 }) {
+  if (!contractAddress || !id || !receiverWalletAddress) return;
   const contractCollection = await new web3.eth.Contract(
     Collection_abi,
     contractAddress
   );
   const receipt = await contractCollection.methods
-    .transferNFT(receiverWalletAddress, tokenId)
+    .transferNFT(receiverWalletAddress, id)
     .send({ from: await getWalletAddress() });
 
   console.log(receipt);

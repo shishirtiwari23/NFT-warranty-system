@@ -37,7 +37,6 @@ const NFTCollection = () => {
   useEffect(() => {
     fetchCollection();
   }, [parentWalletAddress, walletAddress]);
-
   useEffect(() => {
     fetchNFTs();
   }, [collection, walletAddress]);
@@ -50,7 +49,16 @@ const NFTCollection = () => {
     <div className={styles.container}>
       <div className={styles.cards}>
         {NFTData?.map((NFT, index) => {
-          return <NFTCard NFT={NFT} key={index} />;
+          return (
+            <NFTCard
+              clientWalletAddress={parentWalletAddress}
+              URI={collection[index].URI}
+              tokenId={collection[index].id}
+              contractAddress={collection[index].contractAddress}
+              NFT={NFT}
+              key={index}
+            />
+          );
         })}
       </div>
     </div>

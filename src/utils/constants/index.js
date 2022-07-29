@@ -12,4 +12,7 @@ export {
   getUserCollections,
   fetchDataFromURI,
   getContractAddress,
+  transferNFT,
+  issueComplaint,
+  transferOwnershipInDB,
 } from "./functions";

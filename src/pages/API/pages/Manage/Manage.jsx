@@ -39,7 +39,6 @@ const Manage = () => {
     setIsPageLoading(true);
     const res1 = await createSmartContractInstance("Demo COllecection", "DC");
     const { collectionAddress } = res1;
-
     const res2 = await addParentClient({
       name: organizationName,
       walletAddress,
@@ -111,7 +110,7 @@ const Manage = () => {
     <main className={styles.container}>
       {isComponentLoading && <Loading type="linear" />}
       <form onSubmit={generateHandler} className={styles.header}>
-        <h2>Manage</h2>
+        <h2>{parentClient?.name}</h2>
 
         <div className={styles.APITokenCard}>
           {!parentClient?.APIToken ? (

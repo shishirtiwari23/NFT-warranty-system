@@ -36,7 +36,9 @@ const Collections = () => {
           <CollectionCard
             collection={collection}
             key={index}
-            onClick={() => navigate("/collections/" + collection.walletAddress)}
+            onClick={() =>
+              navigate("/collections/" + collection?.walletAddress)
+            }
           />
         );
       })}

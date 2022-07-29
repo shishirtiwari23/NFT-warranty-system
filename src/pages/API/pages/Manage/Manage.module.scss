@@ -7,6 +7,15 @@
         @extend .flexRow;
 
     }
+    .createOrganzation{
+        @extend .flexRow;
+        align-items: flex-end;
+        button{
+            margin:0 1rem;
+            // padding: 1.2rem 2rem;
+            margin-bottom: 0.5rem;
+        }
+    }
     .APITokenCard{
         @extend .flexRow;   
         justify-content: flex-start;

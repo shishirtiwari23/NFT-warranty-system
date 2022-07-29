@@ -24,6 +24,10 @@ const Collections = () => {
   useEffect(() => {
     getUserCollectionsHandler();
   }, [walletAddress]);
+
+  useEffect(() => {
+    console.log(collections);
+  });
   if (isPageLoading) return <Loading />;
   return (
     <div className={styles.container}>

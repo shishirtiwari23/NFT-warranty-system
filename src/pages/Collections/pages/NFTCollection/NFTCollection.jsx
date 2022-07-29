@@ -5,6 +5,7 @@ import { CurrentContext } from "../../../../utils";
 import {
   getAllContractAddresses,
   getAllUserTokensByClientId,
+  fetchDataFromURI,
 } from "../../../../utils/constants/functions";
 import { Loading, NFTCard } from "../../../../components";
 
@@ -13,8 +14,9 @@ const NFTCollection = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
   const { walletAddress } = useContext(CurrentContext);
   const { parentWalletAddress } = useParams();
+  const [NFTData, setNFTData] = useState([]);
 
-  async function fetchNFTs() {
+  async function fetchCollection() {
     if (!walletAddress) setCollection([]);
     else {
       const res1 = await getAllUserTokensByClientId({
@@ -24,21 +26,33 @@ const NFTCollection = () => {
 
       if (res1?.data?.resData) setCollection(res1.data.resData);
     }
-    //Here use the URI for every token to fetch nft
-    //And then map that nft
+  }
+
+  async function fetchNFTs() {
+    const res2 = await fetchDataFromURI(collection);
+    if (res2) setNFTData(res2);
     setIsPageLoading(false);
   }
 
   useEffect(() => {
-    fetchNFTs();
-  }, [parentWalletAddress]);
+    fetchCollection();
+  }, [parentWalletAddress, walletAddress]);
 
+  useEffect(() => {
+    fetchNFTs();
+  }, [collection, walletAddress]);
+
+  useEffect(() => {
+    console.log(collection, walletAddress);
+  });
   if (isPageLoading) return <Loading />;
   return (
-    <div>
-      {collection?.map((nft, index) => {
-        return <NFTCard key={index} />;
-      })}
+    <div className={styles.container}>
+      <div className={styles.cards}>
+        {NFTData?.map((NFT, index) => {
+          return <NFTCard NFT={NFT} key={index} />;
+        })}
+      </div>
     </div>
   );
 };

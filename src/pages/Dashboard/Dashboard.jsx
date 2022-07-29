@@ -1,8 +1,13 @@
 import styles from "./Dashboard.module.scss";
 import { MainLayout } from "../../Layouts";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TextInputField, Button } from "../../components";
-import { addToken, mintNFT, onValuesChange } from "../../utils/constants";
+import {
+  addToken,
+  mintNFT,
+  onValuesChange,
+  getContractAddress,
+} from "../../utils/constants";
 import { CurrentContext } from "../../utils";
 
 const Dashboard = () => {
@@ -12,27 +17,34 @@ const Dashboard = () => {
     name: "",
     id: "",
     warrantyDuration: "",
-    SCID: "",
     mintedOn: "28 July",
+    APIToken: "",
   });
-
+  useEffect(() => {
+    console.log(parentClient);
+  });
   async function submitHandler(e) {
     e.preventDefault();
-    const res = await mintNFT({
+    let contractAddress = "";
+    const res1 = await getContractAddress(walletAddress);
+    if (res1?.data?.resData) contractAddress = res1.data.resData;
+    const res2 = await mintNFT({
       product: product,
-      walletAddress: "0x38009e3f71B52569B064d225f984247c378FCE96",
+      walletAddress,
       receiverWalletAddress,
-      contractAddress: "0xd8d289F62C800352D5868f666aD8c8f65dae95EC", //For now only parent can create nft
+      contractAddress, //For now only parent can create nft
     });
-    console.log(res);
-    const res2 = await addToken({
-      id: "Token Id2fdmksfdsdskddssssssdddss",
-      URI: "URI",
+    if (!res2) return;
+    const { id, URI } = res2;
+    const res3 = await addToken({
+      id,
+      URI,
       walletAddress: receiverWalletAddress,
-      contractAddress: "ContractAddress",
-      APIToken: "dkjf",
+      contractAddress,
+      APIToken: parentClient?.APIToken,
     });
-    console.log(res2);
+    console.log(res3);
+    // console.log(res2);
   }
 
   return (
@@ -59,13 +71,13 @@ const Dashboard = () => {
           value={product?.warrantyDuration}
           onChange={(e) => onValuesChange(e, setProduct)}
         />
-        <TextInputField
+        {/* <TextInputField
           required
           id="SCID"
           label="Sub Client Id"
           value={product?.SCID}
           onChange={(e) => onValuesChange(e, setProduct)}
-        />
+        /> */}
         <TextInputField
           required
           id="receiverWalletAddress"

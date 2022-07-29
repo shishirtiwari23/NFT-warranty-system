@@ -10,4 +10,6 @@ export {
   regenerateAPIToken,
   onValuesChange,
   getUserCollections,
+  fetchDataFromURI,
+  getContractAddress,
 } from "./functions";

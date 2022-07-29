@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { api } from "../contexts/CurrentContext";
+import { api, apiForURI } from "../contexts/CurrentContext";
 import Web3 from "web3";
 import { CollectionFactory_abi } from "./contractABI/CollectionFactory";
 import { Collection_abi } from "./contractABI/Collection";
@@ -140,9 +140,9 @@ export async function getAllUserTokensByClientId(req) {
 export async function addToken(req) {
   if (!req) return;
 
-  const { id, URI, walletAddress, contractAddress } = req;
+  const { id, URI, walletAddress, contractAddress, APIToken } = req;
 
-  if (!id || !URI || !walletAddress || !contractAddress) return;
+  if (!id || !URI || !walletAddress || !contractAddress || !APIToken) return;
   console.log(req);
 
   const res = await api.post("/add-token", req);
@@ -152,6 +152,27 @@ export async function addToken(req) {
 export async function getUserCollections(walletAddress) {
   if (!walletAddress) return;
   const res = await api.get("/collections/" + walletAddress);
+  return res;
+}
+
+export async function fetchDataFromURI(tokens) {
+  if (!tokens) return;
+  console.log(tokens);
+  let URIData = tokens.map(async (token) => {
+    const id = token.URI?.split("https://gateway.pinata.cloud/ipfs/")[1];
+    console.log(id);
+    const data = await apiForURI.get(id);
+    console.log(data);
+    return data;
+  });
+  URIData = await Promise.all(URIData);
+  URIData = URIData?.map((item) => item?.data);
+  return URIData;
+}
+
+export async function getContractAddress(walletAddress) {
+  if (!walletAddress) return;
+  const res = await api.get("/contract-address/" + walletAddress);
   return res;
 }
 
@@ -207,7 +228,7 @@ export async function mintNFT({
     return;
   const { name, id, mintedOn, warrantyDuration, SCID } = product;
   console.log("hdhfkj");
-  if (!name || !id || !mintedOn || !warrantyDuration || !SCID) return;
+  if (!name || !id || !mintedOn || !warrantyDuration) return;
 
   //Do your thing
   //make metadata
@@ -216,7 +237,7 @@ export async function mintNFT({
   metadata.name = name;
   metadata.date = mintedOn;
   metadata.warrantyDuration = warrantyDuration;
-  metadata.SCID = SCID;
+  // metadata.SCID = SCID;
 
   //make pinata call
   const pinataResponse = await pinJSONToIPFS(metadata);

@@ -61,7 +61,7 @@ const Navbar = () => {
           Logo
         </NavLink>
       </div>
-      {isConnected && (
+      {walletAddress && (
         <div className={styles.middle}>
           <NavLink
             to="/"
@@ -99,7 +99,7 @@ const Navbar = () => {
       )}
       <div className={styles.right}>
         {windowDetails?.isMetamaskInstalled ? (
-          isConnected ? (
+          walletAddress ? (
             <p>Wallet Address: {walletAddress}</p>
           ) : (
             <Button onClick={connectToMetamask}>Connect Wallet</Button>

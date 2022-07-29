@@ -8,6 +8,10 @@ export const api = axios.create({
   baseURL: "http://localhost:3001/api",
 });
 
+export const apiForURI = axios.create({
+  baseURL: "https://gateway.pinata.cloud/ipfs/",
+});
+
 const CurrentContext = createContext({});
 
 export const CurrentContextProvider = ({ children }) => {

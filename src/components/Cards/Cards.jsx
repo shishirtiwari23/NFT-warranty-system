@@ -4,23 +4,21 @@ import { Button } from "../";
 
 const { verifiedIcon } = icons;
 
-export const NFTCard = ({ id, name, mintedOn, expiresIn, ...remaining }) => {
+export const NFTCard = ({ NFT, ...remaining }) => {
+  const { date, id, name, warrantyDuration } = NFT;
   return (
     <div {...remaining} className={styles.NFTCard}>
       <p className={styles.id}>
-        <span>#AMKD234KJ97S</span>
+        <span>{id}</span>
       </p>
       <p className={styles.name}>
-        <span>Macbook Air M1, Spacegrey 8gb, 256gb</span>
-      </p>
-      <p className={styles.SCID}>
-        <span>SCID :#9JJDB234KJ97S</span>
+        <span>{name}</span>
       </p>
       <p className={styles.mintedOn}>
-        Minted on <span>11/07/2022</span>{" "}
+        Minted on <span>{date}</span>{" "}
       </p>
       <p className={styles.expiresIn}>
-        Expires in <span>17 days</span>
+        Expires in <span>{warrantyDuration} Seconds</span>
       </p>
       <div className={styles.buttons}>
         <Button>Raise An Issue</Button>
@@ -30,13 +28,8 @@ export const NFTCard = ({ id, name, mintedOn, expiresIn, ...remaining }) => {
   );
 };
 
-export const CollectionCard = ({
-  name,
-  id,
-  profileImage,
-  coverImage,
-  ...remaining
-}) => {
+export const CollectionCard = ({ collection, ...remaining }) => {
+  const { name, id, profileImage, coverImage } = collection;
   return (
     <div {...remaining} className={styles.collectionCard}>
       <div className={styles.coverImage}>
@@ -47,7 +40,8 @@ export const CollectionCard = ({
           <img src="" alt="" />
         </div>
         <p className={styles.organization}>
-          Flipkart <img src={verifiedIcon} alt="Verified" />
+          {name || "Organization Name"}
+          <img src={verifiedIcon} alt="Verified" />
         </p>
       </div>
     </div>

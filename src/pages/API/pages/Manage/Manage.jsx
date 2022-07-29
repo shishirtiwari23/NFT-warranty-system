@@ -20,6 +20,7 @@ const Manage = () => {
   const { walletAddress, parentClient, setParentClient } =
     useContext(CurrentContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [organizationName, setOrganizationName] = useState("");
   const [childClientValues, setChildClientValues] = useState({
     id: "",
     walletAddress: "",
@@ -33,16 +34,19 @@ const Manage = () => {
   function onChildValuesChange(e) {
     onValuesChange(e, setChildClientValues);
   }
-  async function generateHandler() {
+  async function generateHandler(e) {
+    e.preventDefault();
     setIsPageLoading(true);
+    const res1 = await createSmartContractInstance("Demo COllecection", "DC");
+    const { collectionAddress } = res1;
 
-    const res = await addParentClient({
-      name: "Flipkart",
+    const res2 = await addParentClient({
+      name: organizationName,
       walletAddress,
-      contractAddress: "0x69f165ccb0651285b39411230d6e686e7616dbdf",
+      contractAddress: collectionAddress,
     });
-    if (res?.data?.resData) {
-      setParentClient(res.data.resData);
+    if (res2?.data?.resData) {
+      setParentClient(res2.data.resData);
     } else window.alert("Unable to generate API Token");
     setIsPageLoading(false);
   }
@@ -106,12 +110,22 @@ const Manage = () => {
   return (
     <main className={styles.container}>
       {isComponentLoading && <Loading type="linear" />}
-      <div className={styles.header}>
+      <form onSubmit={generateHandler} className={styles.header}>
         <h2>Manage</h2>
 
         <div className={styles.APITokenCard}>
           {!parentClient?.APIToken ? (
-            <Button onClick={generateHandler}>Generate API Token</Button>
+            <div className={styles.createOrganzation}>
+              <TextInputField
+                id="name"
+                label="Organization Name"
+                placeholder="Flipkart"
+                value={organizationName}
+                onChange={(e) => setOrganizationName(e.target.value)}
+              />
+
+              <Button type="submit">Create</Button>
+            </div>
           ) : (
             <>
               <p>{parentClient?.APIToken}</p>
@@ -129,14 +143,14 @@ const Manage = () => {
             </>
           )}
         </div>
-      </div>
+      </form>
       {!parentClient?.APIToken && (
         <>
           <h3>Join as Organization to see the content</h3>
           <Button>Join</Button>
         </>
       )}
-
+      {/* 
       {parentClient?.APIToken && (
         <form
           onSubmit={childFormSubmitHandler}
@@ -163,7 +177,7 @@ const Manage = () => {
           </div>
           <Button type="submit">Submit</Button>
         </form>
-      )}
+      )} */}
     </main>
   );
 };

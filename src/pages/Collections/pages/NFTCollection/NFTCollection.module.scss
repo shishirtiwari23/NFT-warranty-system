@@ -1,0 +1,12 @@
+@import "../../../../utils/commons.scss";
+
+.container{
+    .cards{
+        @extend .flexRow;
+        justify-content: flex-start;
+flex-wrap: wrap;
+        >div{
+            margin:1rem;
+        }
+    }
+}

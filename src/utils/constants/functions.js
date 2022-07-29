@@ -257,21 +257,52 @@ export async function mintNFT({
 
 export async function burnNFT({ contractAddress, id }) {
   //Here id is token id
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+  const tx = await contractCollection.methods
+    .burn(id)
+    .send({ from: await getWalletAddress() });
+  console.log(tx);
+  console.log("NFT Burnt");
+
+  return {
+    status: 1,
+  };
 }
 
 export async function issueComplaint({ id, description, contractAddress }) {
   //Here id is token id
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+  const receipt = await contractCollection.methods
+    .regComplaint(id, description)
+    .send({ from: await getWalletAddress() });
   return {
     status: 1,
-    complaintId: "id",
+    complaintId: receipt.events.ComplaintRegistered.returnValues.comaplaintId,
   };
 }
 
 export async function updateComplaint({
-  status,
+  newStatus,
   complaintId,
   contractAddress,
 }) {
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+  const receipt = await contractCollection.methods
+    .updateComplaint(complaintId, newStatus)
+    .send({ from: await getWalletAddress() });
+
+  console.log(receipt);
+  console.log("Complaint Updated");
+
   return {
     status: 1,
   };
@@ -282,29 +313,55 @@ export async function transferNFT({
   tokenId,
   receiverWalletAddress,
 }) {
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+  const receipt = await contractCollection.methods
+    .transferNFT(receiverWalletAddress, tokenId)
+    .send({ from: await getWalletAddress() });
+
+  console.log(receipt);
+  console.log("NFT Transferred");
   return {
     status: 1,
   };
 }
 
 export async function viewWarranty({ tokenId, contractAddress }) {
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+  const warrantyLeft = await contractCollection.methods
+    .warrantyLeft(tokenId)
+    .call();
   return {
     status: 1,
-    timeLeft: 3223, //Time in seconds
+    timeLeft: warrantyLeft, //Time in seconds
   };
 }
 
-export async function viewComplaintStatus({ comaplaintId, contractAddress }) {
+export async function viewComplaintStatus({ complaintId, contractAddress }) {
+  const contractCollection = await new web3.eth.Contract(
+    Collection_abi,
+    contractAddress
+  );
+  const complaintStatus = await contractCollection.methods
+    .viewComplaintStatus(complaintId)
+    .call();
   return {
-    status: 0,
-    description: "",
+    status: 1,
+    complaintStatus,
   };
 }
+
+const CollectionFactoryAddress = "0x69f165ccb0651285b39411230d6e686e7616dbdf";
 
 export async function createSmartContractInstance(name, symbol) {
   const contractCreateCollection = new web3.eth.Contract(
     CollectionFactory_abi,
-    "0x69f165ccb0651285b39411230d6e686e7616dbdf"
+    CollectionFactoryAddress
   );
   const accounts = await web3.eth.getAccounts();
   const tx = await contractCreateCollection.methods

@@ -15,13 +15,9 @@ function App() {
             <Route
               path="/"
               element={
-                <PrivateRoute
-                  component={
-                    <MainLayout>
-                      <Home />
-                    </MainLayout>
-                  }
-                />
+                <MainLayout>
+                  <Home />
+                </MainLayout>
               }
             />
             <Route

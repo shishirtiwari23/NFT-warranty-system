@@ -22,7 +22,9 @@ export const CurrentContextProvider = ({ children }) => {
     isMetamaskInstalled: false,
   });
   const [userDetails, setUserDetails] = useState({});
-
+  useEffect(() => {
+    console.log(walletAddress, parentClient);
+  });
   useEffect(() => {
     const newProvider = detectProvider();
     setWindowDetails((prev) => {

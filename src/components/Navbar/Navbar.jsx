@@ -29,22 +29,21 @@ const Navbar = () => {
       }
       const decodedToken = decodeToken(token);
       setWalletAddress(decodedToken.walletAddress);
+      connectToMetamask(decodedToken.walletAddress);
     }
   }, []);
 
-  useEffect(() => {
-    connectToMetamask();
-  }, []);
+  // useEffect(() => {
+  //   connectToMetamask();
+  // }, []);
 
   useEffect(() => {
-    if (isConnected)
-      windowDetails?.provider?.on("accountsChanged", connectToMetamask); // Whenever wallet changes this gets called, but not on mount
+    windowDetails?.provider?.on("accountsChanged", connectToMetamask); // Whenever wallet changes this gets called, but not on mount
     return () => {
-      if (isConnected)
-        windowDetails?.provider?.removeListener(
-          "accountsChanged",
-          connectToMetamask
-        );
+      windowDetails?.provider?.removeListener(
+        "accountsChanged",
+        connectToMetamask
+      );
     };
   });
 

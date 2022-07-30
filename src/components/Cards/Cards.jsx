@@ -7,6 +7,9 @@ import {
   transferNFT,
   issueComplaint,
   transferOwnershipInDB,
+  issueComplaintInDB,
+  viewWarranty,
+  viewComplaintStatus,
 } from "../../utils/constants";
 import { CurrentContext } from "../../utils";
 
@@ -18,25 +21,39 @@ export const NFTCard = ({
   URI,
   clientWalletAddress,
   contractAddress,
+  issue,
   ...remaining
 }) => {
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isIssueModalOpen, setIsIssueModalOpen] = useState(false);
+  const [isViewStatusModalOpen, setIsViewStatusModalOpen] = useState(false);
   const { walletAddress } = useContext(CurrentContext);
-  const { date, id, name, warrantyDuration } = NFT;
 
-  async function transferHandler(e) {
-    e.preventDefault();
+  const [warrantyDuration, setWarrantyDuration] = useState(0);
+  const { date, id, name } = NFT;
+
+  function transferHandler() {
     setIsTransferModalOpen(true);
   }
-  async function issueHandler(e) {
-    e.preventDefault();
+  async function viewStatusHandler() {
+    console.log("sdfsd");
+    setIsViewStatusModalOpen(true);
+    const res = await viewComplaintStatus({
+      complaintId: issue?.complaintId,
+      contractAddress,
+    });
+    console.log(res);
+  }
+  function issueHandler() {
     setIsIssueModalOpen(true);
   }
-  // useEffect(() => {
-  //   console.log();
-  // });
-
+  useEffect(() => {
+    checkWarrantyDuration();
+  });
+  async function checkWarrantyDuration() {
+    const res = await viewWarranty({ tokenId, contractAddress });
+    if (res?.timeLeft) setWarrantyDuration(res.timeLeft);
+  }
   return (
     <div {...remaining} className={styles.NFTCard}>
       <p className={styles.id}>
@@ -52,7 +69,16 @@ export const NFTCard = ({
         Expires in <span>{warrantyDuration} Seconds</span>
       </p>
       <div className={styles.buttons}>
-        <Button onClick={issueHandler}>Raise An Issue</Button>
+        {issue ? (
+          <Button
+            style={{ background: "green", border: "2px solid green" }}
+            onClick={viewStatusHandler}
+          >
+            View Status
+          </Button>
+        ) : (
+          <Button onClick={issueHandler}>Raise An Issue</Button>
+        )}
         <Button onClick={transferHandler} variant="secondary">
           Transfer OwnerShip
         </Button>
@@ -74,28 +100,50 @@ export const NFTCard = ({
           issueHandler={issueHandler}
           id={tokenId}
           contractAddress={contractAddress}
+          parentWalletAddress={clientWalletAddress}
+          walletAddress={walletAddress}
         />
       )}
     </div>
   );
 };
 
-export const IssueModal = ({ id, contractAddress, setIsIssueModalOpen }) => {
+export const IssueModal = ({
+  id,
+  contractAddress,
+  setIsIssueModalOpen,
+  walletAddress,
+  parentWalletAddress,
+}) => {
   const [description, setDescription] = useState("");
 
   async function submitHandler(e) {
     e.preventDefault();
-    const res = await issueComplaint({
+    const res1 = await issueComplaint({
       contractAddress,
       id,
       description,
     });
-    console.log(res);
+
+    const { complaintId } = res1;
+    console.log(res1);
+    if (res1?.complaintId) {
+      const res2 = await issueComplaintInDB({
+        description,
+        tokenId: id,
+        walletAddress,
+        parentWalletAddress,
+        complaintId,
+        contractAddress,
+      });
+      console.log(res2);
+    }
   }
   return (
     <form onSubmit={submitHandler} className={styles.issueModalContainer}>
       <div className={styles.modal}>
         <TextInputField
+          required
           variant="large"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -132,20 +180,24 @@ export const TransferModal = ({
       id,
       receiverWalletAddress,
     });
-    const res2 = await transferOwnershipInDB({
-      receiverWalletAddress,
-      clientWalletAddress,
-      URI,
-      id,
-      contractAddress,
-      senderWalletAddress,
-    });
+    let res2;
+    if (res?.status == 1) {
+      res2 = await transferOwnershipInDB({
+        receiverWalletAddress,
+        clientWalletAddress,
+        URI,
+        id,
+        contractAddress,
+        senderWalletAddress,
+      });
+    }
     console.log(res2);
   }
   return (
     <form onSubmit={submitHandler} className={styles.transferModalContainer}>
       <div className={styles.modal}>
         <TextInputField
+          required
           placeholder="0x00000000000000000000000000000"
           value={receiverWalletAddress}
           onChange={(e) => setReceiverWalletAddress(e.target.value)}

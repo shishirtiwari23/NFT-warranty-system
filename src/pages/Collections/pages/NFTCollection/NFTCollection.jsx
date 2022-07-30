@@ -44,6 +44,7 @@ const NFTCollection = () => {
   useEffect(() => {
     console.log(collection, walletAddress);
   });
+
   if (isPageLoading) return <Loading />;
   return (
     <div className={styles.container}>
@@ -52,9 +53,10 @@ const NFTCollection = () => {
           return (
             <NFTCard
               clientWalletAddress={parentWalletAddress}
-              URI={collection[index].URI}
-              tokenId={collection[index].id}
-              contractAddress={collection[index].contractAddress}
+              URI={collection[index]?.URI}
+              tokenId={collection[index]?.id}
+              contractAddress={collection[index]?.contractAddress}
+              issue={collection[index]?.issue}
               NFT={NFT}
               key={index}
             />

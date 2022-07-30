@@ -15,4 +15,9 @@ export {
   transferNFT,
   issueComplaint,
   transferOwnershipInDB,
+  issueComplaintInDB,
+  updateStatusInDB,
+  updateComplaint,
+  viewWarranty,
+  viewComplaintStatus,
 } from "./functions";

@@ -200,6 +200,45 @@ export async function transferOwnershipInDB(req) {
   return res;
 }
 
+export async function updateStatusInDB(req) {
+  const { walletAddress, parentWalletAddress, complaintId, newStatus } = req;
+  if (!walletAddress || !parentWalletAddress || !complaintId || !newStatus)
+    return;
+  const res = api.post("/update-status", req);
+  return res;
+}
+
+export async function issueComplaintInDB(req) {
+  const {
+    description,
+    tokenId,
+    walletAddress,
+    parentWalletAddress,
+    complaintId,
+    contractAddress,
+  } = req;
+  console.log({
+    description,
+    tokenId,
+    walletAddress,
+    parentWalletAddress,
+    complaintId,
+    contractAddress,
+  });
+  if (
+    !description ||
+    !tokenId ||
+    !walletAddress ||
+    !parentWalletAddress ||
+    !complaintId ||
+    !contractAddress
+  ) {
+    return;
+  }
+  const res = await api.post("/issue-complaint", req);
+  return res;
+}
+
 export async function regenerateAPIToken(walletAddress) {
   if (!walletAddress) return;
   const res = await api.post("/parent-client/regenerate-api-token", {
@@ -317,7 +356,11 @@ export async function burnNFT({ contractAddress, id }) {
   };
 }
 
-export async function issueComplaint({ id, description, contractAddress }) {
+export async function issueComplaint(req) {
+  if (!req) return;
+  const { id, description, contractAddress } = req;
+  console.log({ id, description, contractAddress });
+  if (!id || !description || !contractAddress) return;
   //Here id is token id
   const contractCollection = await new web3.eth.Contract(
     Collection_abi,
@@ -328,21 +371,19 @@ export async function issueComplaint({ id, description, contractAddress }) {
     .send({ from: await getWalletAddress() });
   return {
     status: 1,
-    complaintId: receipt.events.ComplaintRegistered.returnValues.comaplaintId,
+    complaintId: receipt.events.ComplaintRegistered.returnValues.complaintId,
   };
 }
 
-export async function updateComplaint({
-  newStatus,
-  complaintId,
-  contractAddress,
-}) {
+export async function updateComplaint(req) {
+  const { newStatus, complaintId, contractAddress } = req;
+  if (!newStatus || !complaintId || !contractAddress) return;
   const contractCollection = await new web3.eth.Contract(
     Collection_abi,
     contractAddress
   );
   const receipt = await contractCollection.methods
-    .updateComplaint(complaintId, newStatus)
+    .updateComplaintStatus(complaintId, newStatus)
     .send({ from: await getWalletAddress() });
 
   console.log(receipt);

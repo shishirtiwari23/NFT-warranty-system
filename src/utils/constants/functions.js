@@ -89,10 +89,9 @@ export function onValuesChange(e, setValues, type) {
 
 export async function addUser(walletAddress) {
   if (!walletAddress) return; // To not send empty string
-  const res = await api.post("/add-user", {
+  return await api.post("/add-user", {
     walletAddress,
   });
-  return res;
 }
 
 export async function addParentClient(req) {

@@ -21,6 +21,7 @@ export const CurrentContextProvider = ({ children }) => {
     provider: window.ethereum,
     isMetamaskInstalled: false,
   });
+  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
     const newProvider = detectProvider();
@@ -52,6 +53,8 @@ export const CurrentContextProvider = ({ children }) => {
         setWalletAddress,
         api,
         windowDetails,
+        userDetails,
+        setUserDetails,
       }}
     >
       {children}

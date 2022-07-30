@@ -4,6 +4,7 @@ import styles from "./App.module.scss";
 import { MainLayout } from "./Layouts";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { NFTCollection } from "./pages/Collections/pages";
+import PrivateRoute from "./utils/auth/PrivateRoute";
 
 function App() {
   return (
@@ -14,49 +15,73 @@ function App() {
             <Route
               path="/"
               element={
-                <MainLayout>
-                  <Home />
-                </MainLayout>
+                <PrivateRoute
+                  component={
+                    <MainLayout>
+                      <Home />
+                    </MainLayout>
+                  }
+                />
               }
             />
             <Route
               path="/dashboard"
               element={
-                <MainLayout>
-                  <Dashboard />
-                </MainLayout>
+                <PrivateRoute
+                  component={
+                    <MainLayout>
+                      <Dashboard />
+                    </MainLayout>
+                  }
+                />
               }
             />
             <Route
               path="/collections/:parentWalletAddress"
               element={
-                <MainLayout>
-                  <NFTCollection />
-                </MainLayout>
+                <PrivateRoute
+                  component={
+                    <MainLayout>
+                      <NFTCollection />
+                    </MainLayout>
+                  }
+                />
               }
             />
             <Route
               path="/collections"
               element={
-                <MainLayout>
-                  <Collections />
-                </MainLayout>
+                <PrivateRoute
+                  component={
+                    <MainLayout>
+                      <Collections />
+                    </MainLayout>
+                  }
+                />
               }
             />
             <Route
               path="/services"
               element={
-                <MainLayout>
-                  <Services />
-                </MainLayout>
+                <PrivateRoute
+                  component={
+                    <MainLayout>
+                      <Services />
+                    </MainLayout>
+                  }
+                />
               }
             />
             <Route
               path="/services/api/*"
               element={
-                <MainLayout>
-                  <API />
-                </MainLayout>
+                <PrivateRoute
+                  component={
+                    <MainLayout>
+                      <API />
+                    </MainLayout>
+                  }
+                />
               }
             />
           </Routes>

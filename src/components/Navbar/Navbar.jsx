@@ -8,12 +8,33 @@ import { CurrentContext } from "../../utils";
 import { useEffect, useContext, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { Button } from "../";
+import { api } from "../../utils/contexts/CurrentContext";
+import { isExpired, decodeToken } from "react-jwt";
 
 const Navbar = () => {
-  const { setWalletAddress, walletAddress, windowDetails } =
+  const { setWalletAddress, walletAddress, windowDetails, setUserDetails } =
     useContext(CurrentContext);
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
+
+  // Run on startup everytime to check for authToken
+  // in localstorage
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      if (isExpired(token)) {
+        localStorage.removeItem("authToken");
+        setWalletAddress(null);
+        return;
+      }
+      const decodedToken = decodeToken(token);
+      setWalletAddress(decodedToken.walletAddress);
+    }
+  }, []);
+
+  useEffect(() => {
+    connectToMetamask();
+  }, []);
 
   useEffect(() => {
     if (isConnected)
@@ -29,11 +50,20 @@ const Navbar = () => {
 
   async function connectToMetamask() {
     const newWalletAddress = await getWalletAddress(windowDetails.provider);
+    setWalletAddress(newWalletAddress);
+    await addUser(newWalletAddress);
+    setIsConnected(true);
     // const balanace = await getWalletBalance(walletAddress);
-
     if (newWalletAddress !== undefined) {
-      setWalletAddress(newWalletAddress);
-      setIsConnected(true);
+      localStorage.removeItem("authToken");
+      const res = await api.post("/login", {
+        walletAddress: newWalletAddress,
+      });
+      const token = res.data.resData.authToken;
+      const user = res.data.resData.user;
+      setUserDetails(user);
+      localStorage.setItem("authToken", token);
+
       // navigate("/dashboard");
     } else if (newWalletAddress === "") {
       setIsConnected(false);
@@ -45,10 +75,6 @@ const Navbar = () => {
     setWalletAddress("");
     setIsConnected(false);
   }
-
-  useEffect(() => {
-    addUser(walletAddress);
-  }, [walletAddress]);
 
   useEffect(() => {
     console.log(walletAddress, isConnected);

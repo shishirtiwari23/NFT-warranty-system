@@ -1,25 +1,24 @@
 @import "../../utils/commons.scss";
 
-.container{
-    min-width: 100px;
-    padding:0.8rem 1.2rem;
-    border-radius:12px;
-    margin:0.7rem 0;
-    background-color: var(--clr-primary);
-    border: 2px solid var(--clr-primary);
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;   
-    transition-duration:0.2s ; 
-    &:hover{
-        background-color:rgba(32, 129, 226,0.9);
+.container {
+  min-width: 100px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 5px;
+  margin: 0.7rem 0;
+  background-color: var(--clr-primary);
+  border: 2px solid var(--clr-primary);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  &:hover {
+    background-color: rgba(32, 129, 226, 0.9);
     box-shadow: 0 0 5px 0 rgb(167, 167, 167);
-
-    }
+  }
 }
-.container.secondary{
-    border:2px solid var(--clr-primary);
-    background-color: white;
-    color:var(--clr-primary)
+.container.secondary {
+  border: 2px solid var(--clr-primary);
+  background-color: white;
+  color: var(--clr-primary);
 }

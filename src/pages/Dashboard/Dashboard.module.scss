@@ -1,12 +1,18 @@
 @import "../../utils/commons.scss";
 
-.container{
-    @extend .flexRow;
-    justify-content: center;
- form{
-    padding:2rem 3rem;
+.container {
+  @extend .flexRow;
+  justify-content: center;
+  form {
+    padding: 2rem 3rem;
+    margin-top: 2.5rem;
     @extend .flexCol;
+    width: -moz-fit-content;
     width: fit-content;
-    box-shadow: 0 0 2px rgb(202, 202, 202); 
- }
+    box-shadow: 0 0 2px rgb(202, 202, 202);
+    > div {
+      @extend .flexCol;
+      align-items: center;
+    }
+  }
 }

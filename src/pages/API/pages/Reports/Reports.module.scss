@@ -1,8 +1,103 @@
 @import "../../../../utils/commons.scss";
 
 .container{
+    margin:0 2rem;
+    
+    h2{
+letter-spacing: 0px;
+    }
     .issue{
-        border:2px solid rgb(174, 174, 174);
-        padding:2rem;
+        margin:1rem 0;
+        border:2px solid rgb(219, 219, 219);
+        padding:1rem;
+        border-radius: 12px;
+        width: fit-content;
+        p{
+        font-size: 1rem;
+            margin: 0.5rem 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            span{
+                font-weight: 400;
+            }
+        }
+        .buttons{
+            width:100%;
+            @extend .flexRow;
+            justify-content: flex-end;
+            button{
+                margin:0;
+            }
+        }
+                
     }
 }
+
+.modalContainer{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(rgb(0, 0, 0), 0.5);
+        @extend .flexRow;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000000;
+
+        p {
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            letter-spacing: 1px;
+
+            span {
+                text-transform: capitalize;
+                font-weight: 600;
+                color: rgb(91, 91, 91);
+
+            }
+        }
+
+        .modal {
+            background-color: white;
+            position: relative;
+            padding: 2rem;
+            border-radius: 10px;
+
+            >div:first-child {
+                width: 500px;
+            }
+
+            .header {
+                @extend .flexRow;
+                justify-content: space-between;
+
+                .image {
+                    cursor: pointer;
+                    @extend .flexRow;
+                    border-radius: 50%;
+
+                    img {
+                        width: 40px;
+                        height: 40%;
+                    }
+
+                    &:hover {
+                        background-color: rgb(230, 230, 230);
+                    }
+                }
+            }
+
+            .buttons {
+                width: 100%;
+                padding: 0;
+                position: relative;
+                @extend .flexRow;
+                justify-content: space-between;
+
+                button {
+                    margin: 1rem 0.3rem;
+                }
+            }
+        }
+    }

@@ -3,6 +3,7 @@ import { ReactComponent as ReportsIcon } from "./icons/reports.svg";
 import { ReactComponent as DocumentIcon } from "./icons/document.svg";
 import { ReactComponent as CopyIcon } from "./icons/copy.svg";
 import verifiedIcon from "./icons/verified.png";
+import close from "./icons/close.svg";
 
 export const icons = {
   ManageIcon,
@@ -10,4 +11,5 @@ export const icons = {
   DocumentIcon,
   CopyIcon,
   verifiedIcon,
+  close,
 };

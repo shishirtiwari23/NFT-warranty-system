@@ -50,42 +50,47 @@ const Dashboard = () => {
   return (
     <div className={styles.container}>
       <form onSubmit={submitHandler} action="">
-        <TextInputField
-          id="id"
-          required
-          label="Product Serial No"
-          value={product?.id}
-          onChange={(e) => onValuesChange(e, setProduct)}
-        />
-        <TextInputField
-          required
-          id="name"
-          label="Product Name"
-          value={product?.name}
-          onChange={(e) => onValuesChange(e, setProduct)}
-        />
-        <TextInputField
-          required
-          id="warrantyDuration"
-          label="Warranty Duration"
-          value={product?.warrantyDuration}
-          onChange={(e) => onValuesChange(e, setProduct)}
-        />
-        {/* <TextInputField
+        <div className={styles.header}>
+          <h2>Mint NFT</h2>
+        </div>
+        <div className={styles.inputs}>
+          <TextInputField
+            id="id"
+            required
+            label="Product Serial No"
+            value={product?.id}
+            onChange={(e) => onValuesChange(e, setProduct)}
+          />
+          <TextInputField
+            required
+            id="name"
+            label="Product Name"
+            value={product?.name}
+            onChange={(e) => onValuesChange(e, setProduct)}
+          />
+          <TextInputField
+            required
+            id="warrantyDuration"
+            label="Warranty Duration"
+            value={product?.warrantyDuration}
+            onChange={(e) => onValuesChange(e, setProduct)}
+          />
+          {/* <TextInputField
           required
           id="SCID"
           label="Sub Client Id"
           value={product?.SCID}
           onChange={(e) => onValuesChange(e, setProduct)}
         /> */}
-        <TextInputField
-          required
-          id="receiverWalletAddress"
-          label="Receiver Wallet Address"
-          value={receiverWalletAddress}
-          onChange={(e) => setReceiverWalletAddress(e.target.value)}
-        />
-        <Button type="submit">Mint</Button>
+          <TextInputField
+            required
+            id="receiverWalletAddress"
+            label="Receiver Wallet Address"
+            value={receiverWalletAddress}
+            onChange={(e) => setReceiverWalletAddress(e.target.value)}
+          />
+          <Button type="submit">Mint</Button>
+        </div>
       </form>
     </div>
   );

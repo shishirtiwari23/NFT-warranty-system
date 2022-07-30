@@ -13,7 +13,7 @@ import {
 } from "../../utils/constants";
 import { CurrentContext } from "../../utils";
 
-const { verifiedIcon } = icons;
+const { verifiedIcon, close } = icons;
 
 export const NFTCard = ({
   NFT,
@@ -28,6 +28,7 @@ export const NFTCard = ({
   const [isIssueModalOpen, setIsIssueModalOpen] = useState(false);
   const [isViewStatusModalOpen, setIsViewStatusModalOpen] = useState(false);
   const { walletAddress } = useContext(CurrentContext);
+  const [complaintStatus, setComplaintStatus] = useState("");
 
   const [warrantyDuration, setWarrantyDuration] = useState(0);
   const { date, id, name } = NFT;
@@ -36,13 +37,12 @@ export const NFTCard = ({
     setIsTransferModalOpen(true);
   }
   async function viewStatusHandler() {
-    console.log("sdfsd");
     setIsViewStatusModalOpen(true);
     const res = await viewComplaintStatus({
       complaintId: issue?.complaintId,
       contractAddress,
     });
-    console.log(res);
+    if (res?.complaintStatus) setComplaintStatus(res?.complaintStatus);
   }
   function issueHandler() {
     setIsIssueModalOpen(true);
@@ -74,7 +74,7 @@ export const NFTCard = ({
             style={{ background: "green", border: "2px solid green" }}
             onClick={viewStatusHandler}
           >
-            View Status
+            View Complaint Status
           </Button>
         ) : (
           <Button onClick={issueHandler}>Raise An Issue</Button>
@@ -104,11 +104,54 @@ export const NFTCard = ({
           walletAddress={walletAddress}
         />
       )}
+      {isViewStatusModalOpen && (
+        <ViewStatusModal
+          setIsViewStatusModalOpen={setIsViewStatusModalOpen}
+          complaintStatus={complaintStatus}
+          complaintId={issue?.complaintId}
+        />
+      )}
     </div>
   );
 };
 
-export const IssueModal = ({
+const ViewStatusModal = ({
+  setIsViewStatusModalOpen,
+  complaintStatus,
+  complaintId,
+}) => {
+  const statusMap = [
+    "registered",
+    "underReview",
+    "underRepairment",
+    "repaired",
+    "underReplacement",
+    "replaced",
+  ];
+  return (
+    <div className={styles.viewStatusModalContainer}>
+      <div className={styles.modal}>
+        <div className={styles.header}>
+          <h2>Complaint Status</h2>
+          <div
+            onClick={() => setIsViewStatusModalOpen(false)}
+            className={styles.image}
+          >
+            <img src={close} alt="Close" />
+          </div>
+        </div>
+        <p>
+          Complaint Id: <span>{complaintId}</span>{" "}
+        </p>
+        <p>
+          Complaint Status: <span>{statusMap[parseInt(complaintStatus)]}</span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const IssueModal = ({
   id,
   contractAddress,
   setIsIssueModalOpen,
@@ -221,13 +264,11 @@ export const CollectionCard = ({ collection, ...remaining }) => {
   const { name, id, profileImage, coverImage } = collection;
   return (
     <div {...remaining} className={styles.collectionCard}>
-      <div className={styles.coverImage}>
+      {/* <div className={styles.coverImage}>
         <img src="" alt="" />
-      </div>
+      </div> */}
       <div className={styles.info}>
-        <div className={styles.profileImage}>
-          <img src="" alt="" />
-        </div>
+        <div className={styles.profileImage}>{/* <img src="" alt="" /> */}</div>
         <p className={styles.organization}>
           {name || "Organization Name"}
           <img src={verifiedIcon} alt="Verified" />

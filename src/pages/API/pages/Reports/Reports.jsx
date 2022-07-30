@@ -17,10 +17,12 @@ const Reports = () => {
 
   return (
     <div className={styles.container}>
-      <h3>Issues</h3>
-      {issues?.map((issue) => {
-        return <Issue issue={issue} />;
-      })}
+      <h2>Issues</h2>
+      <div className={styles.issues}>
+        {issues?.map((issue, index) => {
+          return <Issue issue={issue} key={index} />;
+        })}
+      </div>
     </div>
   );
 };
@@ -41,7 +43,9 @@ const Issue = ({ issue }) => {
       <p>
         Token Id: <span>{issue?.tokenId}</span>
       </p>
-      <Button onClick={() => setIsUpdateModalOpen(true)}>Update Issue</Button>
+      <div className={styles.buttons}>
+        <Button onClick={() => setIsUpdateModalOpen(true)}>Update Issue</Button>
+      </div>
       {isUpdateModalOpen && (
         <UpdateStatus
           setIsUpdateModalOpen={setIsUpdateModalOpen}
@@ -80,13 +84,15 @@ const UpdateStatus = ({ issue, setIsUpdateModalOpen }) => {
           value={newStatus}
           onChange={(e) => setNewStatus(e.target.value)}
         />
-        <Button type="submit">Update</Button>
-        <Button
-          style={{ background: "red", border: "2px solid red" }}
-          onClick={() => setIsUpdateModalOpen(false)}
-        >
-          Cancel
-        </Button>
+        <div className={styles.buttons}>
+          <Button type="submit">Update</Button>
+          <Button
+            style={{ background: "red", border: "2px solid red" }}
+            onClick={() => setIsUpdateModalOpen(false)}
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </form>
   );

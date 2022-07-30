@@ -30,13 +30,16 @@ const NFTCollection = () => {
 
   async function fetchNFTs() {
     const res2 = await fetchDataFromURI(collection);
-    if (res2) setNFTData(res2);
-    setIsPageLoading(false);
+    if (res2) {
+      setNFTData(res2);
+      setIsPageLoading(false);
+    }
   }
 
   useEffect(() => {
     fetchCollection();
   }, [parentWalletAddress, walletAddress]);
+
   useEffect(() => {
     fetchNFTs();
   }, [collection, walletAddress]);

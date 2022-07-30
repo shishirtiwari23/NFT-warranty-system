@@ -442,7 +442,7 @@ export async function viewComplaintStatus({ complaintId, contractAddress }) {
   };
 }
 
-const CollectionFactoryAddress = "0x69f165ccb0651285b39411230d6e686e7616dbdf";
+const CollectionFactoryAddress = "0x4c341d283fada59Be2812A1e8f475f48a40397C2";
 
 export async function createSmartContractInstance(name, symbol) {
   const contractCreateCollection = new web3.eth.Contract(

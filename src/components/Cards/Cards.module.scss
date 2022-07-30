@@ -3,13 +3,14 @@
 .NFTCard {
   width: 300px;
   height: 350px;
-  box-shadow: 0 0 5px rgb(177, 177, 177);
+  // box-shadow: 0 0 5px rgb(177, 177, 177);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
   position: relative;
   padding: 1.5rem 1.5rem;
   border-radius: 12px;
   transition: all 0.1s;
-  // z-index: 1;
 
   overflow: hidden;
   .id {
@@ -46,7 +47,7 @@
     bottom: 0;
     left: 0;
     button {
-      margin: 0.2rem 0;
+      margin: 0.5rem 0;
       width: 100%;
     }
   }
@@ -59,7 +60,7 @@
   width: 250px;
   height: 100px;
   border-radius: 12px;
-  border:3px solid var(--clr-primary);
+  border: 3px solid var(--clr-primary);
   // box-shadow: 0 0 5px rgb(177, 177, 177);
   // overflow: hidden;
   cursor: pointer;
@@ -75,7 +76,7 @@
     padding: 1rem;
     p {
       @extend .flexRow;
-      justify-content:center;
+      justify-content: center;
       font-size: 1.1rem;
       font-weight: 600;
       width: 100%;
@@ -100,14 +101,15 @@
   // }
   &:hover {
     box-shadow: 0 0 2px var(--clr-primary);
-    background-color:rgb(32, 129, 226);
-    p{
-      color:white;
+    background-color: rgb(32, 129, 226);
+    p {
+      color: white;
     }
   }
 }
 .transferModalContainer,
-.issueModalContainer,.viewStatusModalContainer {
+.issueModalContainer,
+.viewStatusModalContainer {
   position: fixed;
   top: 0;
   left: 0;
@@ -122,11 +124,10 @@
     font-size: 1rem;
     margin:1rem 0;
     letter-spacing: 1px;
-    span{
+    span {
       text-transform: capitalize;
       font-weight: 600;
-      color:rgb(91, 91, 91);
-     
+      color: rgb(91, 91, 91);
     }
   }
   .modal {
@@ -137,18 +138,18 @@
     > div:first-child {
       width: 500px;
     }
-    .header{
+    .header {
       @extend .flexRow;
       justify-content: space-between;
-      .image{
+      .image {
         cursor: pointer;
-       @extend .flexRow;
+        @extend .flexRow;
         border-radius: 50%;
-        img{
+        img {
           width: 40px;
-            height: 40%;
+          height: 40%;
         }
-        &:hover{
+        &:hover {
           background-color: rgb(230, 230, 230);
         }
       }

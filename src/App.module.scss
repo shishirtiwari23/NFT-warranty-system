@@ -4,26 +4,33 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color:rgb(53, 56, 64);
+  color: rgb(53, 56, 64);
 }
 
 :root {
   --clr-primary: rgb(32, 129, 226);
-  --clr-bg: rgb(255,255,255);
+  --clr-bg: rgb(255, 255, 255);
   --nav-height: 4.5rem;
   --sidemenu-width: 300px;
   --fixed-width: 100%;
-  --default-padding-horizontal:1rem;
-  --clr-text-default:rgb(53, 56, 64);
+  --default-padding-horizontal: 1rem;
+  --clr-text-default: rgb(53, 56, 64);
 }
-html{
+html {
   font-size: 16px;
   font-family: Poppins, sans-serif;
-  
+
+  input,
+  textarea {
+    padding: 1rem !important;
+    border-radius: 5px !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.2) !important;
+    background: rgba(0, 0, 0, 0.03) !important;
+  }
 }
-h1{
-  margin:0.7rem 0;
+h1 {
+  margin: 0.7rem 0;
 }
-h2{
-  margin:0.7rem 0;
+h2 {
+  margin: 0.7rem 0;
 }

@@ -1,7 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, TextInputField } from "../../../../components";
+import { Button, TextInputField, InputSelect } from "../../../../components";
 import { CurrentContext } from "../../../../utils";
-import { updateComplaint, updateStatusInDB } from "../../../../utils/constants";
+import {
+  onValuesChange,
+  statusOptions,
+  updateComplaint,
+  updateStatusInDB,
+} from "../../../../utils/constants";
 import styles from "./Reports.module.scss";
 
 const Reports = () => {
@@ -57,10 +62,14 @@ const Issue = ({ issue }) => {
 };
 
 const UpdateStatus = ({ issue, setIsUpdateModalOpen }) => {
-  const [newStatus, setNewStatus] = useState("");
+  const [newStatus, setNewStatus] = useState(issue?.status);
   const { walletAddress } = useContext(CurrentContext);
+  useEffect(() => {
+    console.log(issue);
+  });
   async function submitHandler(e) {
     e.preventDefault();
+    setIsUpdateModalOpen(false);
     const res1 = await updateComplaint({
       newStatus,
       complaintId: issue.complaintId,
@@ -80,10 +89,18 @@ const UpdateStatus = ({ issue, setIsUpdateModalOpen }) => {
   return (
     <form onSubmit={submitHandler} className={styles.modalContainer}>
       <div className={styles.modal}>
-        <TextInputField
-          value={newStatus}
-          onChange={(e) => setNewStatus(e.target.value)}
-        />
+        <div className={styles.select}>
+          <InputSelect
+            required
+            value={newStatus}
+            label={"New Status"}
+            options={statusOptions}
+            name={"newStatus"}
+            onChange={(e) => {
+              setNewStatus(e.target.value);
+            }}
+          />
+        </div>
         <div className={styles.buttons}>
           <Button type="submit">Update</Button>
           <Button

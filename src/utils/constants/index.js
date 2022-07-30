@@ -21,3 +21,5 @@ export {
   viewWarranty,
   viewComplaintStatus,
 } from "./functions";
+
+export { statusOptions } from "./data";

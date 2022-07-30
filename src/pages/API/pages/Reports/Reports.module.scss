@@ -43,7 +43,7 @@ letter-spacing: 0px;
         @extend .flexRow;
         align-items: center;
         justify-content: center;
-        z-index: 10000000;
+        z-index: 10;
 
         p {
             font-size: 1.1rem;
@@ -67,7 +67,12 @@ letter-spacing: 0px;
             >div:first-child {
                 width: 500px;
             }
-
+            .select{
+                *{
+font-family: Poppins, sans-serif;
+                    color:rgb(53, 56, 64) !important;
+                }
+            }
             .header {
                 @extend .flexRow;
                 justify-content: space-between;

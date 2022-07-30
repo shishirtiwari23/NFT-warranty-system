@@ -10,6 +10,7 @@ import {
   issueComplaintInDB,
   viewWarranty,
   viewComplaintStatus,
+  statusOptions,
 } from "../../utils/constants";
 import { CurrentContext } from "../../utils";
 
@@ -120,14 +121,10 @@ const ViewStatusModal = ({
   complaintStatus,
   complaintId,
 }) => {
-  const statusMap = [
-    "registered",
-    "underReview",
-    "underRepairment",
-    "repaired",
-    "underReplacement",
-    "replaced",
-  ];
+  const statusMap = statusOptions.map((item) => item.name);
+  useEffect(() => {
+    console.log(parseInt(complaintStatus.complaintStatus));
+  });
   return (
     <div className={styles.viewStatusModalContainer}>
       <div className={styles.modal}>
@@ -144,7 +141,8 @@ const ViewStatusModal = ({
           Complaint Id: <span>{complaintId}</span>{" "}
         </p>
         <p>
-          Complaint Status: <span>{statusMap[parseInt(complaintStatus)]}</span>
+          Complaint Status:{" "}
+          <span>{statusMap[parseInt(complaintStatus.complaintStatus)]}</span>
         </p>
       </div>
     </div>
@@ -162,6 +160,7 @@ const IssueModal = ({
 
   async function submitHandler(e) {
     e.preventDefault();
+    setIsIssueModalOpen(false);
     const res1 = await issueComplaint({
       contractAddress,
       id,
@@ -182,6 +181,7 @@ const IssueModal = ({
       console.log(res2);
     }
   }
+
   return (
     <form onSubmit={submitHandler} className={styles.issueModalContainer}>
       <div className={styles.modal}>
@@ -217,6 +217,7 @@ export const TransferModal = ({
   const [receiverWalletAddress, setReceiverWalletAddress] = useState("");
 
   async function submitHandler(e) {
+    setIsTransferModalOpen(false);
     e.preventDefault();
     const res = await transferNFT({
       contractAddress,

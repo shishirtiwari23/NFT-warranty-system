@@ -116,6 +116,7 @@ const Manage = () => {
           {!parentClient?.APIToken ? (
             <div className={styles.createOrganzation}>
               <TextInputField
+                required
                 id="name"
                 label="Organization Name"
                 placeholder="Flipkart"

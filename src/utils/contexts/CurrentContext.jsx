@@ -5,7 +5,7 @@ import { detectProvider, getWalletAddress, addUser } from "../constants";
 export const HOST_URL = "https://nft-warranty-system-server.herokuapp.com";
 
 export const api = axios.create({
-  baseURL: "https://nft-warranty-system-server.herokuapp.com/api",
+  baseURL: "http://localhost:3001/api",
 });
 
 export const apiForURI = axios.create({

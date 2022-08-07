@@ -29,11 +29,12 @@ export async function getWalletBalance(walletAddress) {
   }
 }
 
-export async function getWalletAddress(provider) {
+export async function getWalletAddress(provider, setIsErrorModalOpen) {
   try {
     const w3 = new Web3(detectProvider());
     const accounts = await w3.eth.getAccounts();
     if (accounts?.length === 0) {
+      setIsErrorModalOpen(true);
       console.error(
         "No wallet detected,this likely happens when the metamask account is locked"
       );

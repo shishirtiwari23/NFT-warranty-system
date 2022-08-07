@@ -44,3 +44,38 @@
         }
     }
 }
+
+.errorModalContainer{
+    position: fixed;
+    background-color: rgba($color: #000000, $alpha: 0.2);
+    width:100vw;
+    height:100vh;
+    top:0;
+    left:0;
+    @extend .flexRow;
+    justify-content: center;
+    .modal{
+        width:600px;
+        padding:2rem 3rem;
+        background-color: white;
+        border-radius: 12px;
+        button{
+            margin:0rem;
+        }
+        h3{
+            margin:1rem 0;
+        }
+        p{
+            font-size: 0.9rem;
+            margin:0.4rem 0;
+        }
+        li{
+            margin:1rem 0;
+            font-size: 0.9rem;
+        }
+        a{
+            margin:0;
+            padding: 5px;
+        }
+    }
+}

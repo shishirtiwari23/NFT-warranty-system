@@ -16,6 +16,7 @@ const Navbar = () => {
     useContext(CurrentContext);
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   // Run on startup everytime to check for authToken
   // in localstorage
@@ -48,7 +49,10 @@ const Navbar = () => {
   });
 
   async function connectToMetamask() {
-    const newWalletAddress = await getWalletAddress(windowDetails.provider);
+    const newWalletAddress = await getWalletAddress(
+      windowDetails.provider,
+      setIsErrorModalOpen
+    );
     setWalletAddress(newWalletAddress);
     await addUser(newWalletAddress);
     setIsConnected(true);
@@ -134,6 +138,35 @@ const Navbar = () => {
             <a href="https://metamask.io">Download Metamask</a>{" "}
           </Button>
         )}
+      </div>
+      {isErrorModalOpen && (
+        <ErrorModal setIsErrorModalOpen={setIsErrorModalOpen} />
+      )}
+    </div>
+  );
+};
+
+const ErrorModal = ({ setIsErrorModalOpen }) => {
+  return (
+    <div className={styles.errorModalContainer}>
+      <div className={styles.modal}>
+        <h3>Ahh Snap!!</h3>
+        <p>Some Error Occured</p>
+        <p>This Likely Happens due to one of the following reasons</p>
+        <ul>
+          <li>Your Metamask account is locked</li>
+          <li>
+            Our website is not connected with your metamask wallet, to do that
+            checkout out this article on how to
+            <a
+              target="blank"
+              href="https://metamask.zendesk.com/hc/en-us/articles/360045901112-Manually-connecting-to-a-dapp"
+            >
+              Manually Connect your wallet to dapp
+            </a>
+          </li>
+        </ul>
+        <Button onClick={() => setIsErrorModalOpen(false)}>I Understand</Button>
       </div>
     </div>
   );
